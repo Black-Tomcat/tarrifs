@@ -2,16 +2,17 @@
   "name": "tarrifs",
   "version": "1.0.0",
   "description": "A game about getting money",
-  "main": "electron.js",
+  "main": "electronShell.js",
   "author": "Black-Tomcat <tomcat.frantz@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "run": "electron .",
+    "start": "electron .",
     "build": "webpack",
     "watch": "webpack --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-stage-1": "^7.0.0",
@@ -19,6 +20,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "electron": "^3.0.7",
+    "electron-json-storage": "^4.1.4",
     "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",

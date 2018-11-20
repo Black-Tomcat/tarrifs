@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: "development",
     devtool: "source-map",
+    target: 'electron-main',
     entry: {
         index: "./src/index.js"
     },
@@ -31,7 +32,8 @@ module.exports = {
                             "@babel/preset-react"
                         ],
                         plugins: [
-                            "transform-class-properties"
+                            "transform-class-properties",
+                            "@babel/plugin-proposal-optional-chaining"
                         ]
                     }
                 }
@@ -41,15 +43,26 @@ module.exports = {
                     loader: "html-loader"
                 }
             }, {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                test: /\.png?$/,
                 use: {
                     loader: "file-loader",
                     options: {
                         name: './resources/[name].[ext]'
                     }
                 }
+            }, {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: './assets/[name].[ext]'
+                    }
+                }
             }
         ]
+    },
+    node: {
+        fs: 'empty'
     },
     plugins: [
         new HtmlWebPackPlugin({

@@ -1,0 +1,32 @@
+{
+  "frames": {
+    "merchant": {
+      "frame": {"x": 0, "y": 0, "w": 8, "h": 8},
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 8, "h": 8},
+      "sourceSize": {"w": 8, "h": 8}
+    },
+    "town": {
+      "frame": {"x": 8, "y": 0, "w": 8, "h": 8},
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 8, "h": 8},
+      "sourceSize": {"w": 8, "h": 8}
+    },
+    "land": {
+      "frame": {"x": 0, "y": 8, "w": 8, "h": 8},
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 8, "h": 8},
+      "sourceSize": {"w": 8, "h": 8}
+    },
+    "ocean": {
+      "frame": {"x": 8, "y": 8, "w": 8, "h": 8},
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 8, "h": 8},
+      "sourceSize": {"w": 8, "h": 8}
+    }
+  },
+  "meta": {
+    "image": "spritesheet.png",
+    "size": {"w": 16, "h": 8},
+    "scale": "1"
+  },
+  "metadata": {
+    "tileSize": 8
+  }
+}

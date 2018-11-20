@@ -248,8 +248,11 @@ export default class GameCore {
     addNewGameObject(object) {
         for (const componentName of Object.keys(object.components)) {
             const component = object.components[componentName];
-            component.addComponent(this);
             this.components[componentName].push(component);
+        }
+
+        for (const component of Object.values(object.component)) {
+            component.addComponent(this);
         }
     }
 

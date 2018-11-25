@@ -23,6 +23,8 @@ export default class RenderComponent extends GameComponent {
         if (this.physicsSibling === null) {
             throw new Error("physicsSibling not defined.")
         }
+
+        return true;
     }
 
     addComponent(gameCore) {

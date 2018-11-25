@@ -8,6 +8,6 @@ export default class InformationComponent extends GameComponent{
     }
 
     update() {
-
+        return false;
     }
 }

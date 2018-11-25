@@ -249,8 +249,13 @@ export default class GameCore {
 
     updateComponents(nameset, delta) {
         for (const componentName of nameset) {
-            for (const component of this.components[componentName]) {
-                component.update(this, delta);
+            let componentList = this.components[componentName];
+
+            for (const component of componentList) {
+                if (!component.update(this, delta)) {
+                    componentList.splice(componentList.indexOf(component), 1);
+                    this.components.inactive.push(component)
+                }
             }
         }
     }

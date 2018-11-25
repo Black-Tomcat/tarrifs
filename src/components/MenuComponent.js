@@ -15,7 +15,10 @@ export default class MenuComponent extends GameComponent {
         if(this.menu.current) {
             // This is where you would access the menu from.
             this.menu.current.update("This is the new message!")
+            return false;
         }
+
+        return true;
     }
 
     addComponent(gameCore) {

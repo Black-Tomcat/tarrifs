@@ -11,6 +11,6 @@ export default class PhysicsComponent extends GameComponent{
     }
 
     update(gameCore, delta) {
-
+        return true;
     }
 }

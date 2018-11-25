@@ -43,7 +43,7 @@ export default class mapRenderComponent extends RenderComponent{
     }
 
     update(gameEngine, lag) {
-        // blank to override parent
+        return false;
     }
 
 

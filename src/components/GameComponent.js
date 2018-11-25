@@ -8,6 +8,7 @@ export default class GameComponent {
     * linkSibling(x), ...
     * addComponent()
     * update(), ...
+    *   return false if inactive from that point. Otherwise, return true.
     * removeComponent()
     * */
 

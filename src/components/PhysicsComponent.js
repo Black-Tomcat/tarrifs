@@ -10,19 +10,7 @@ export default class PhysicsComponent extends GameComponent{
         }
     }
 
-    linkSibling(components) {
-
-    }
-
     update(gameCore, delta) {
-        throw new Error("The 'update' method was not implemented.")
-    }
-
-    addComponent(gameCore) {
-
-    }
-
-    removeComponent(gameCore) {
 
     }
 }

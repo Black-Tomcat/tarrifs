@@ -10,7 +10,7 @@ export default class RenderComponent extends GameComponent {
     }
 
     linkSibling(component) {
-        if (component.toString().split("::")[1] === "physicsComponent") {
+        if (component.superType === "physicsComponent") {
             this.physicsSibling = component;
             if (!(this.sprites instanceof Array)) {
                 this.sprites.x = this.physicsSibling.pos.x;

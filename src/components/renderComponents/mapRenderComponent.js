@@ -26,6 +26,7 @@ export default class mapRenderComponent extends RenderComponent{
             for (const y in mapTerrain[x]) {
                 const terrain = mapTerrain[y][x];
                 const sprite = new PIXI.Sprite(textures[mapRenderComponent.terrainKeys[terrain]]);
+                sprite.interactive = true;
                 sprite.x = x * textures.metadata.tileSize + startingCoords.x;
                 sprite.y = y * textures.metadata.tileSize + startingCoords.y;
                 sprites.push(sprite);

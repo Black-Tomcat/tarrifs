@@ -135,6 +135,32 @@ export default class GameCore {
 
                 this.objectFactory = new GameObjectFactory(textureObject);
 
+                // TODO add in functionality to not scroll canvas when a menu is above it.
+                document.addEventListener("mousewheel", (ev) => {
+                    // This is the function to allow for scrolling in and out of a point.
+                    ev.stopPropagation();
+                    let scaleBy = 1.05;
+
+                    let mainStage = this.pixiApp.stage;
+                    let oldScale = mainStage.scale.x;
+
+                    let mousePointTo = {
+                        x: ev.x / oldScale - mainStage.position.x / oldScale,
+                        y: ev.y / oldScale - mainStage.position.y / oldScale,
+                    };
+
+                    let newScale = ev.deltaY < 0 ? Math.min(2, oldScale * scaleBy) : Math.max(0.5, oldScale / scaleBy); // Min Max for zooms hard coded here.
+                    mainStage.scale = { x: newScale, y: newScale };
+
+                    let newPos = {
+                        x: -(mousePointTo.x - ev.x / newScale) * newScale,
+                        y: -(mousePointTo.y - ev.y / newScale) * newScale
+                    };
+
+                    mainStage.position = newPos;
+                    console.log(mainStage.position)
+                });
+
                 // Attaching the stage to the main app so rendering can be performed.
                 document.body.appendChild(this.pixiApp.view);
 

@@ -1,7 +1,7 @@
 // TODO figure out how to link in the informationComponent.
 
 import React, { Component } from 'react';
-import { Card } from 'antd';
+import { Card, List } from 'antd';
 import MenuComponent from "../MenuComponent";
 
 
@@ -18,6 +18,13 @@ export default class CityMenuComponent extends MenuComponent {
         }
     }
 
+    update() {
+        if (this.menu.current && !this.menu.current.state.initialized) {
+            this.menu.current.update({initialized: true, ...this.informationSibling.details});
+            return false;
+        }
+    }
+
     addComponent(gameCore) {
         gameCore.addMenu(<this.reactComponent ref={this.menu}/>)
     }
@@ -27,7 +34,10 @@ export default class CityMenuComponent extends MenuComponent {
 class CityReactComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            initialized: false,
+            cityName: ""
+        }
     }
 
     update(message) {
@@ -39,7 +49,7 @@ class CityReactComponent extends Component {
     render() {
         return (
             <Card
-                title={"City Menu Component"}
+                title={<h1>City Menu Component</h1>}
                 style={{
                     width: 500,
                     position: "absolute",
@@ -47,7 +57,18 @@ class CityReactComponent extends Component {
                     right: 10
                 }}
             >
-
+                <h2>Details</h2>
+                {
+                    this.state.initialized &&
+                    <List
+                        size="small"
+                        bordered
+                        dataSource={[
+                            ["Name", this.state.cityName]
+                        ]}
+                        renderItem={item => (<List.Item><h4>{item[0]}:</h4> {item[1]}</List.Item>)}
+                    />
+                }
             </Card>
         )
     }

@@ -17,17 +17,30 @@ export default class GameCore {
         FAST: 1000
     };
 
+    // TODO move this to config area in order to make it fully modular.
+    static gameComponentTypes = [
+        "physicsComponents",
+        "informationComponents"
+    ];
+
+    static renderComponentTypes = [
+        "renderComponents",
+        "menuComponents",
+    ];
+
     constructor(options={}) {
         this.speed = GameCore.UPDATE_LENGTH.NORMAL;
         this.previous = null;
         this.lag = 0;
 
         this.components = {
-            renderComponents: [],
-            physicsComponents: [],
-            menuComponents: [],
-            informationComponents: []
+            inactive: []
         };
+
+        for (const componentName of [...GameCore.gameComponentTypes, ...GameCore.renderComponentTypes]) {
+            this.components[componentName] = []
+
+        }
 
         this.openMenus = [];
         this.reRenderMenus = false;
@@ -234,32 +247,22 @@ export default class GameCore {
         requestAnimationFrame(this.gameLoop) // TODO find appropriate numbers.
     };
 
-    updateGameState(delta) {
-        for (const physicsComponent of this.components.physicsComponents) {
-            physicsComponent.update(delta);
+    updateComponents(nameset, delta) {
+        for (const componentName of nameset) {
+            for (const component of this.components[componentName]) {
+                component.update(this, delta);
+            }
         }
     }
 
-    createNewGame(
-        mapTerrain=false,
-        cities=[]
-    ) {
-        this.addNewGameObject(this.objectFactory.createMap(this, mapTerrain));
-        // TODO patch hack
-        for (const city of cities) {
-            this.addNewGameObject(this.objectFactory.createNewCity(this, city.pos))
-        }
+
+    updateGameState(delta) {
+        this.updateComponents(GameCore.gameComponentTypes, delta)
     }
 
     renderGraphics(lag) {
         // TODO
-        for (const renderComponent of this.components.renderComponents) {
-            renderComponent.update(this, lag)
-        }
-
-        for (const menuComponent of this.components.menuComponents) {
-            menuComponent.update(this, lag)
-        }
+        this.updateComponents(GameCore.renderComponentTypes, lag);
 
         if (this.reRenderMenus) {
             this.reRenderMenus = false;
@@ -272,6 +275,17 @@ export default class GameCore {
                 </div>,
                 document.getElementById("reactEntry")
             )
+        }
+    }
+
+    createNewGame(
+        mapTerrain=false,
+        cities=[]
+    ) {
+        this.addNewGameObject(this.objectFactory.createMap(this, mapTerrain));
+        // TODO patch hack
+        for (const city of cities) {
+            this.addNewGameObject(this.objectFactory.createNewCity(this, city.pos))
         }
     }
 

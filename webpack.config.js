@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: "development",
-    devtool: "source-map",
+    devtool: "cheap-module-source-map",
     target: 'electron-main',
     entry: {
         index: "./src/index.js"
@@ -42,6 +42,9 @@ module.exports = {
                 use: {
                     loader: "html-loader"
                 }
+            }, {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
             }, {
                 test: /\.png?$/,
                 use: {

@@ -1,29 +1,30 @@
 import PhysicsComponent from '../components/PhysicsComponent'
 import RenderComponent from "../components/RenderComponent";
 import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
-import MenuComponent from "../components/MenuComponent";
+import React from "react";
+import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
 
 
 class GameObject {
-    constructor(gameCore, components) {
+    constructor(gameCore, components, details={}) {
         // Get components
         this.components = {};
 
         for (const component of Object.keys(components)) {
             this.addComponent(components[component])
         }
+
+        this.details = details;
     }
 
     addComponent(component) {
-        const componentName = component.toString().split("::")[1];
-
         for (const objectComponent of Object.keys(this.components)) {
             // Link both to incoming component and all the pre existing components.
             this.components[objectComponent].linkSibling(component);
             component.linkSibling(this.components[objectComponent]);
         }
 
-        this.components[componentName] = component;
+        this.components[component.superType] = component;
     }
 
     toString() {
@@ -33,7 +34,7 @@ class GameObject {
 
 export default class GameObjectFactory {
     constructor(textureObject) {
-        this.textureObject = textureObject
+        this.textureObject = textureObject;
     }
 
     createNewCity(gameCore, location) {
@@ -42,7 +43,7 @@ export default class GameObjectFactory {
             {
                 physicsComponent: new PhysicsComponent(location),
                 renderComponent: new RenderComponent(new PIXI.Sprite(this.textureObject["town"])),
-                menuComponent: new MenuComponent()
+                menuComponent: new CityMenuComponent()
             }
         )
     }

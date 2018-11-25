@@ -23,9 +23,10 @@ export default class GameCore {
         this.lag = 0;
 
         this.components = {
-            renderComponent: [],
-            physicsComponent: [],
-            menuComponent: []
+            renderComponents: [],
+            physicsComponents: [],
+            menuComponents: [],
+            informationComponents: []
         };
 
         this.openMenus = [];
@@ -208,7 +209,9 @@ export default class GameCore {
     };
 
     updateGameState(delta) {
-        // TODO
+        for (const physicsComponent of this.components.physicsComponents) {
+            physicsComponent.update(delta);
+        }
     }
 
     createNewGame(
@@ -224,21 +227,22 @@ export default class GameCore {
 
     renderGraphics(lag) {
         // TODO
-        for (const renderComponent of this.components.renderComponent) {
+        for (const renderComponent of this.components.renderComponents) {
             renderComponent.update(this, lag)
         }
 
-        for (const menuComponent of this.components.menuComponent) {
+        for (const menuComponent of this.components.menuComponents) {
             menuComponent.update(this, lag)
         }
 
         if (this.reRenderMenus) {
             this.reRenderMenus = false;
             ReactDOM.render(
-                <div>
-                    {
-                        this.openMenus
-                    }
+                <div style={{
+                    width: "100vw",
+                    height: "100vh"
+                }}>
+                    {this.openMenus}
                 </div>,
                 document.getElementById("reactEntry")
             )
@@ -248,10 +252,10 @@ export default class GameCore {
     addNewGameObject(object) {
         for (const componentName of Object.keys(object.components)) {
             const component = object.components[componentName];
-            this.components[componentName].push(component);
+            this.components[componentName + "s"].push(component);
         }
 
-        for (const component of Object.values(object.component)) {
+        for (const component of Object.values(object.components)) {
             component.addComponent(this);
         }
     }

@@ -3,7 +3,6 @@ import RenderComponent from "../RenderComponent";
 const PIXI = require("pixi.js");
 
 
-// TODO refactor renderComponent to be able to extend from this correctly.
 export default class mapRenderComponent extends RenderComponent{
     static terrainKeys = {
         0: "ocean",

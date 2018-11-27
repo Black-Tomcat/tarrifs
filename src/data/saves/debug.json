@@ -16,6 +16,17 @@
       "pos": {
         "x": 16,
         "y": 16
+      },
+      "details": {
+        "cityName": "Umbru"
+      }
+    }, {
+      "pos": {
+        "x": 32,
+        "y": 32
+      },
+      "details": {
+        "cityName": "Delestro"
       }
     }
   ]

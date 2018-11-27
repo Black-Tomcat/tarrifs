@@ -11,6 +11,8 @@ export default class PhysicsComponent extends GameComponent{
     }
 
     update(gameCore, delta) {
-        return true;
+        // This returns false as this generic physics component is just to supply position
+        // while in practice, this is rather useless, it allows for a neat thinking.
+        return false;
     }
 }

@@ -3,11 +3,14 @@ import RenderComponent from "../components/RenderComponent";
 import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
 import React from "react";
 import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
+import InformationComponent from "../components/InformationComponent";
 
 
 class GameObject {
-    constructor(gameCore, components, details={}) {
+    constructor(objecType, gameCore, components, details={}) {
         // Get components
+        this.objectType = objecType;
+
         this.components = {};
 
         for (const component of Object.keys(components)) {
@@ -37,19 +40,33 @@ export default class GameObjectFactory {
         this.textureObject = textureObject;
     }
 
-    createNewCity(gameCore, location) {
+    createNewCity(gameCore, location, details) {
         return new GameObject(
+            "city",
             gameCore,
             {
                 physicsComponent: new PhysicsComponent(location),
                 renderComponent: new RenderComponent(new PIXI.Sprite(this.textureObject["town"])),
-                menuComponent: new CityMenuComponent()
+                menuComponent: new CityMenuComponent(),
+                informationComponent: new InformationComponent(details)
+            }
+        )
+    }
+
+    createNewMerchant(gameCore, location) {
+        return new GameObject(
+            "merchant",
+            gameCore,
+            {
+                physicsComponent: new PhysicsComponent(location),
+                renderComponent: new RenderComponent(new PIXI.Sprite(this.textureObject['merchant']))
             }
         )
     }
 
     createNewMap(gameCore) {
         return new GameObject(
+            "gameMap",
             gameCore,
             {
                 renderComponent: new mapRenderComponent(gameCore, this.textureObject, false)
@@ -59,6 +76,7 @@ export default class GameObjectFactory {
 
     createMap(gameCore, mapTerrain) {
         return new GameObject(
+            "gameMap",
             gameCore,
             {
                 renderComponent: new mapRenderComponent(gameCore, this.textureObject, mapTerrain)

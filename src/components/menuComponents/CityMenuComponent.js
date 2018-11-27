@@ -15,18 +15,21 @@ export default class CityMenuComponent extends MenuComponent {
     linkSibling(component) {
         if (component.superType === "informationComponent") {
             this.informationSibling = component;
+        } else if (component.superType === "renderComponent") {
+            // Don't need to store the ref to the renderComponent, just need to link it
+            component.addEventListeners("click", () => {
+                super.toggleVisible()
+            });
         }
     }
 
-    update() {
+    update(gameCore, delta) {
+        super.update(gameCore, delta);
         if (this.menu.current && !this.menu.current.state.initialized) {
             this.menu.current.update({initialized: true, ...this.informationSibling.details});
             return false;
         }
-    }
-
-    addComponent(gameCore) {
-        gameCore.addMenu(<this.reactComponent ref={this.menu}/>)
+        return true;
     }
 }
 
@@ -53,8 +56,8 @@ class CityReactComponent extends Component {
                 style={{
                     width: 500,
                     position: "absolute",
-                    bottom: 10,
-                    right: 10
+                    bottom: "calc(1vw - 100vh)", // This is to ensure same spacing as 'right' property.
+                    right: "-99vw"
                 }}
             >
                 <h2>Details</h2>
@@ -66,7 +69,7 @@ class CityReactComponent extends Component {
                         dataSource={[
                             ["Name", this.state.cityName]
                         ]}
-                        renderItem={item => (<List.Item><h4>{item[0]}:</h4> {item[1]}</List.Item>)}
+                        renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
                     />
                 }
             </Card>

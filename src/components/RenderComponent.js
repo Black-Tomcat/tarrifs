@@ -7,6 +7,14 @@ export default class RenderComponent extends GameComponent {
 
         this.sprites = sprites;
         this.physicsSibling = null;
+
+        if (this.sprites instanceof Array) {
+            for (const sprite of this.sprites) {
+                sprite.interactive = true;
+            }
+        } else {
+            this.sprites.interactive = true;
+        }
     }
 
     linkSibling(component) {
@@ -24,7 +32,7 @@ export default class RenderComponent extends GameComponent {
             throw new Error("physicsSibling not defined.")
         }
 
-        return true;
+        return false;
     }
 
     addComponent(gameCore) {
@@ -40,6 +48,16 @@ export default class RenderComponent extends GameComponent {
             gameCore.pixiApp.stage.removeChild(...this.sprites);
         } else {
             gameCore.pixiApp.stage.removeChild(this.sprites);
+        }
+    }
+
+    addEventListeners(event, callback) {
+        if (this.sprites instanceof Array) {
+            for (const sprite of this.sprites) {
+                sprite.on(event, callback);
+            }
+        } else {
+            this.sprites.on(event, callback);
         }
     }
 }

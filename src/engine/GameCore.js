@@ -28,6 +28,11 @@ export default class GameCore {
         "menuComponents",
     ];
 
+    static gameObjectTypes = [
+        "citys",
+        "merchants"
+    ];
+
     constructor(options={}) {
         this.speed = GameCore.UPDATE_LENGTH.NORMAL;
         this.previous = null;
@@ -37,9 +42,17 @@ export default class GameCore {
             inactive: []
         };
 
+        this.gameObjects = {
+            unnamed: []
+        };
+
         for (const componentName of [...GameCore.gameComponentTypes, ...GameCore.renderComponentTypes]) {
             this.components[componentName] = []
 
+        }
+
+        for (const objectName of GameCore.gameObjectTypes) {
+            this.gameObjects[objectName] = [];
         }
 
         this.openMenus = [];
@@ -275,9 +288,9 @@ export default class GameCore {
             this.config.debug.frames_time += elapsed;
             if (this.config.debug.frames_time >= 1000) {
                 this.config.debug.frames_time -= 1000;
-                console.log("frames: ", this.config.debug.frames);
+                // console.log("frames: ", this.config.debug.frames);
                 this.config.debug.frames = 0;
-                console.log(this);
+                // console.log(this);
             }
         }
 
@@ -325,7 +338,7 @@ export default class GameCore {
         this.addNewGameObject(this.objectFactory.createMap(this, mapTerrain));
         // TODO patch hack
         for (const city of cities) {
-            this.addNewGameObject(this.objectFactory.createNewCity(this, city.pos))
+            this.addNewGameObject(this.objectFactory.createNewCity(this, city.pos, city.details))
         }
     }
 
@@ -338,10 +351,23 @@ export default class GameCore {
         for (const component of Object.values(object.components)) {
             component.addComponent(this);
         }
+
+        try {
+            this.gameObjects[object.objectType + "s"].push(object);
+        } catch (e) {
+            this.gameObjects["unnamed"].push(object);
+        }
     }
 
     addMenu(component) {
         this.openMenus.push(component);
         this.reRenderMenus = true;
     }
+
+    removeMenu(component) {
+        this.openMenus.splice(this.openMenus.indexOf(component), 1);
+        this.reRenderMenus = true;
+    }
+
+    getComponents
 }

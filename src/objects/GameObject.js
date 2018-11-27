@@ -14,17 +14,17 @@ class GameObject {
         this.components = {};
 
         for (const component of Object.keys(components)) {
-            this.addComponent(components[component])
+            this.addComponent(components[component], gameCore)
         }
 
         this.details = details;
     }
 
-    addComponent(component) {
+    addComponent(component, gameCore) {
         for (const objectComponent of Object.keys(this.components)) {
             // Link both to incoming component and all the pre existing components.
-            this.components[objectComponent].linkSibling(component);
-            component.linkSibling(this.components[objectComponent]);
+            this.components[objectComponent].linkSibling(component, gameCore);
+            component.linkSibling(this.components[objectComponent], gameCore);
         }
 
         this.components[component.superType] = component;

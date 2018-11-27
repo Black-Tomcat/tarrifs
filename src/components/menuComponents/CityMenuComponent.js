@@ -12,13 +12,15 @@ export default class CityMenuComponent extends MenuComponent {
         this.informationSibling = null;
     }
 
-    linkSibling(component) {
+    linkSibling(component, gameCore) {
         if (component.superType === "informationComponent") {
             this.informationSibling = component;
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
-            component.addEventListeners("click", () => {
-                super.toggleVisible()
+            component.addEventListeners("pointertap", (ev) => {
+                if (!gameCore.dragging) { // TODO make this more clean I guess?
+                    super.toggleVisible()
+                }
             });
         }
     }

@@ -195,18 +195,22 @@ export default class GameCore {
                     // store a reference to the data
                     // the reason for this is because of multitouch
                     this.data = {x: event.data.global.x, y: event.data.global.y};
-                    this.dragging = true;
+                    this.down = true;
                 };
-                const onDragEnd = () => {
+                const onDragEnd = (e) => {
+                    if (this.dragging) {
+                        e.stopPropagation();
+                    }
                     this.dragging = false;
+                    this.down = false;
                     this.data = null;
 
                 };
                 const onDragMove = (event) => {
                     // we want to track the movement of this particular touch
-                    console.log("onDragMove");
-                    if (this.dragging)
+                    if (this.down)
                     {
+                        this.dragging = true;
                         this.pixiApp.stage.position.x += event.data.global.x - this.data.x;
                         this.pixiApp.stage.position.y += event.data.global.y - this.data.y;
 

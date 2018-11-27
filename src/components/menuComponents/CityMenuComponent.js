@@ -27,9 +27,8 @@ export default class CityMenuComponent extends MenuComponent {
         super.update(gameCore, delta);
         if (this.menu.current && !this.menu.current.state.initialized) {
             this.menu.current.update({initialized: true, ...this.informationSibling.details});
-            return false;
         }
-        return true;
+        return true; // Must always return true due to the nature of the super method.
     }
 }
 

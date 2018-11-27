@@ -194,12 +194,10 @@ export default class GameCore {
                 const onDragStart = (event) => {
                     // store a reference to the data
                     // the reason for this is because of multitouch
-                    console.log("Drag Starting");
                     this.data = {x: event.data.global.x, y: event.data.global.y};
                     this.dragging = true;
                 };
                 const onDragEnd = () => {
-                    console.log("Drag Ended");
                     this.dragging = false;
                     this.data = null;
 
@@ -288,9 +286,9 @@ export default class GameCore {
             this.config.debug.frames_time += elapsed;
             if (this.config.debug.frames_time >= 1000) {
                 this.config.debug.frames_time -= 1000;
-                // console.log("frames: ", this.config.debug.frames);
+                console.log("frames: ", this.config.debug.frames);
                 this.config.debug.frames = 0;
-                // console.log(this);
+                console.log(this);
             }
         }
 

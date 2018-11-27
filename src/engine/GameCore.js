@@ -151,7 +151,6 @@ export default class GameCore {
                     spritesheetJSON
                 );
 
-                // TODO do something with the texture object.
                 const textureObject = {};
                 spritesheet.parse((sprites) => {
                     for (const frame in spritesheetJSON.frames) {
@@ -165,7 +164,6 @@ export default class GameCore {
 
                 this.objectFactory = new GameObjectFactory(textureObject);
 
-                // TODO add in functionality to not scroll canvas when a menu is above it.
                 document.getElementsByTagName("canvas")[0].addEventListener("mousewheel", (ev) => {
                     // This is the function to allow for scrolling in and out of a point.
                     ev.stopPropagation();

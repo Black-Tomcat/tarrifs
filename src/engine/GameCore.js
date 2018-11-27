@@ -46,16 +46,18 @@ export default class GameCore {
             unnamed: []
         };
 
-        for (const componentName of [...GameCore.gameComponentTypes, ...GameCore.renderComponentTypes]) {
+        for (const componentName of [
+            ...GameCore.gameComponentTypes,
+            ...GameCore.renderComponentTypes
+        ]) {
             this.components[componentName] = []
-
         }
 
         for (const objectName of GameCore.gameObjectTypes) {
             this.gameObjects[objectName] = [];
         }
 
-        this.openMenus = [];
+        this.openMenus = []; // TODO potentially consider an object to represent the positions of menus
         this.reRenderMenus = false;
 
         this.objectFactory = null;
@@ -366,6 +368,4 @@ export default class GameCore {
         this.openMenus.splice(this.openMenus.indexOf(component), 1);
         this.reRenderMenus = true;
     }
-
-    getComponents
 }

@@ -8,8 +8,7 @@
   "scripts": {
     "start": "electron .",
     "build": "webpack",
-    "watch": "webpack --watch",
-    "quickrun": "yarn && yarn run build && yarn run start"
+    "watch": "webpack --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -20,7 +19,7 @@
     "antd": "^3.10.4",
     "babel-loader": "^8.0.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "electron": "^3.0.7",
+    "electron": "^3.0.9",
     "electron-json-storage": "^4.1.4",
     "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",

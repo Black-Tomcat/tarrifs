@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: "development",
-    devtool: "cheap-module-source-map",
+    devtool: "heap-module-inline-source-map",
     target: 'electron-main',
     entry: {
         index: "./src/index.js"

@@ -120,12 +120,16 @@ export default class GameCore {
                 width: window.innerWidth,
                 height: window.innerHeight
             });
+            document.body.appendChild(this.pixiApp.view);
+
+            this.pixiApp.stage.interactive = true;
 
             const renderer = this.pixiApp.renderer;
             renderer.autoResize = true;
             renderer.view.style.position = "absolute";
             renderer.view.style.display = "block";
 
+            // TODO if you want to make a unique standalone game engine, simply make this loader 'modular'
             PIXI.loader.add(
                 "spritesheet", spritesheet
             ).load((loader, resources) => {
@@ -149,7 +153,7 @@ export default class GameCore {
                 this.objectFactory = new GameObjectFactory(textureObject);
 
                 // TODO add in functionality to not scroll canvas when a menu is above it.
-                document.addEventListener("mousewheel", (ev) => {
+                document.getElementsByTagName("canvas")[0].addEventListener("mousewheel", (ev) => {
                     // This is the function to allow for scrolling in and out of a point.
                     ev.stopPropagation();
                     let scaleBy = 1.05;
@@ -171,11 +175,45 @@ export default class GameCore {
                     };
 
                     mainStage.position = newPos;
-                    console.log(mainStage.position)
                 });
 
+                 // TODO fix this. Issue being reactEntry overlaps this.
+                const onDragStart = (event) => {
+                    // store a reference to the data
+                    // the reason for this is because of multitouch
+                    console.log("Drag Starting");
+                    this.data = {x: event.data.global.x, y: event.data.global.y};
+                    this.dragging = true;
+                };
+                const onDragEnd = () => {
+                    console.log("Drag Ended");
+                    this.dragging = false;
+                    this.data = null;
+
+                };
+                const onDragMove = (event) => {
+                    // we want to track the movement of this particular touch
+                    console.log("onDragMove");
+                    if (this.dragging)
+                    {
+                        this.pixiApp.stage.position.x += event.data.global.x - this.data.x;
+                        this.pixiApp.stage.position.y += event.data.global.y - this.data.y;
+
+                        this.data = {x: event.data.global.x, y: event.data.global.y};
+                        // Can probably optimize this, but oh wells
+                    }
+                };
+
+                this.pixiApp.stage
+                    .on('pointerdown', onDragStart)
+                    // events for drag end
+                    .on('pointerup', onDragEnd)
+                    // events for drag move
+                    .on('mousemove', onDragMove)
+                    .on('touchmove', onDragMove);
+
+
                 // Attaching the stage to the main app so rendering can be performed.
-                document.body.appendChild(this.pixiApp.view);
 
                 resolve();
             });
@@ -272,10 +310,7 @@ export default class GameCore {
         if (this.reRenderMenus) {
             this.reRenderMenus = false;
             ReactDOM.render(
-                <div style={{
-                    width: "100vw",
-                    height: "100vh"
-                }}>
+                <div>
                     {this.openMenus}
                 </div>,
                 document.getElementById("reactEntry")

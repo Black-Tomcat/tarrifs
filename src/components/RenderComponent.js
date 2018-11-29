@@ -1,5 +1,5 @@
 import GameComponent from "./GameComponent";
-const PIXI = require('pixi.js');
+
 
 export default class RenderComponent extends GameComponent {
     constructor(sprites=[], componentType="renderComponent") {
@@ -35,19 +35,20 @@ export default class RenderComponent extends GameComponent {
         return false;
     }
 
+    // TODO Something about making proper functions to interact with gameCore.
     addComponent(gameCore) {
         if (this.sprites instanceof Array) {
-            gameCore.pixiApp.stage.addChild(...this.sprites);
+            gameCore.renderCore.pixiApp.stage.addChild(...this.sprites);
         } else {
-            gameCore.pixiApp.stage.addChild(this.sprites);
+            gameCore.renderCore.pixiApp.stage.addChild(this.sprites);
         }
     }
 
     removeComponent(gameCore) {
         if (this.sprites instanceof Array) {
-            gameCore.pixiApp.stage.removeChild(...this.sprites);
+            gameCore.renderCore.pixiApp.stage.removeChild(...this.sprites);
         } else {
-            gameCore.pixiApp.stage.removeChild(this.sprites);
+            gameCore.renderCore.pixiApp.stage.removeChild(this.sprites);
         }
     }
 

@@ -7,6 +7,7 @@ import path from "path";
 import spritesheet from '../data/assets/spritesheet.png'
 import spritesheetJSON from '../data/assets/spritesheet.json';
 import GameObjectFactory from "../objects/GameObject";
+import {getPixiApp, RenderCore} from "./RenderCore";
 
 
 export default class GameCore {
@@ -32,6 +33,23 @@ export default class GameCore {
         "citys",
         "merchants"
     ];
+
+    static createConfig(options) {
+        // TODO make this better.
+        const config = {
+            debug: false,
+            ...options
+        };
+
+        if (config.debug) {
+            config.debug = {
+                frames: 0,
+                frames_time: 0
+            }
+        }
+
+        return config;
+    }
 
     constructor(options={}) {
         this.speed = GameCore.UPDATE_LENGTH.NORMAL;
@@ -60,28 +78,11 @@ export default class GameCore {
         this.openMenus = []; // TODO potentially consider an object to represent the positions of menus
         this.reRenderMenus = false;
 
+        this.renderCore = new RenderCore();
+
         this.objectFactory = null;
 
-        this.pixiApp = null;
-
         this.config = GameCore.createConfig(options)
-    }
-
-    static createConfig(options) {
-        // TODO make this better.
-        const config = {
-            debug: false,
-            ...options
-        };
-
-        if (config.debug) {
-            config.debug = {
-                frames: 0,
-                frames_time: 0
-            }
-        }
-
-        return config;
     }
 
     startGame() {
@@ -91,14 +92,12 @@ export default class GameCore {
         };
 
         Promise.all([
-            // Load in game data
-            this.loadGameConfig(),
-            // Load in spritesheet
-            this.loadGameGraphics()
+            this.__loadGameConfig(),
+            this.renderCore.loadGameGraphics().then((objectFactory) => {this.objectFactory = objectFactory})
         ]).then(() => {
             // Load in dummy game
             if (this.config.debug) {
-                this.loadGameSave("debug").then(() => {
+                this.__loadGameSave("debug").then(() => {
                     startGameLoop();
                 });
             } else {
@@ -109,7 +108,7 @@ export default class GameCore {
         })
     }
 
-    loadGameConfig() {
+    __loadGameConfig() {
         return new Promise((resolve, reject) => {
             // The path has to be set from the working directory.
             jsonStorage.setDataPath(path.resolve("./src/data/config"));
@@ -129,113 +128,7 @@ export default class GameCore {
         })
     }
 
-    loadGameGraphics() {
-        return new Promise((resolve, reject) => {
-            this.pixiApp = new PIXI.Application({
-                width: window.innerWidth,
-                height: window.innerHeight
-            });
-            document.body.appendChild(this.pixiApp.view);
-
-            this.pixiApp.stage.interactive = true;
-
-            const renderer = this.pixiApp.renderer;
-            renderer.autoResize = true;
-            renderer.view.style.position = "absolute";
-            renderer.view.style.display = "block";
-
-            // TODO if you want to make a unique standalone game engine, simply make this loader 'modular'
-            PIXI.loader.add(
-                "spritesheet", spritesheet
-            ).load((loader, resources) => {
-                const spritesheet = new PIXI.Spritesheet(
-                    resources["spritesheet"].texture.baseTexture,
-                    spritesheetJSON
-                );
-
-                const textureObject = {};
-                spritesheet.parse((sprites) => {
-                    for (const frame in spritesheetJSON.frames) {
-                        textureObject[frame] = {
-                            ...sprites[frame]
-                            // Any additional information from spritesheet goes here.
-                        }
-                    }
-                    textureObject.metadata = spritesheetJSON.metadata
-                });
-
-                this.objectFactory = new GameObjectFactory(textureObject);
-
-                document.getElementsByTagName("canvas")[0].addEventListener("mousewheel", (ev) => {
-                    // This is the function to allow for scrolling in and out of a point.
-                    ev.stopPropagation();
-                    let scaleBy = 1.05;
-
-                    let mainStage = this.pixiApp.stage;
-                    let oldScale = mainStage.scale.x;
-
-                    let mousePointTo = {
-                        x: ev.x / oldScale - mainStage.position.x / oldScale,
-                        y: ev.y / oldScale - mainStage.position.y / oldScale,
-                    };
-
-                    let newScale = ev.deltaY < 0 ? Math.min(2, oldScale * scaleBy) : Math.max(0.5, oldScale / scaleBy); // Min Max for zooms hard coded here.
-                    mainStage.scale = { x: newScale, y: newScale };
-
-                    let newPos = {
-                        x: -(mousePointTo.x - ev.x / newScale) * newScale,
-                        y: -(mousePointTo.y - ev.y / newScale) * newScale
-                    };
-
-                    mainStage.position = newPos;
-                });
-
-                 // TODO fix this. Issue being reactEntry overlaps this.
-                const onDragStart = (event) => {
-                    // store a reference to the data
-                    // the reason for this is because of multitouch
-                    this.data = {x: event.data.global.x, y: event.data.global.y};
-                    this.down = true;
-                };
-                const onDragEnd = (e) => {
-                    if (this.dragging) {
-                        e.stopPropagation();
-                    }
-                    this.dragging = false;
-                    this.down = false;
-                    this.data = null;
-
-                };
-                const onDragMove = (event) => {
-                    // we want to track the movement of this particular touch
-                    if (this.down)
-                    {
-                        this.dragging = true;
-                        this.pixiApp.stage.position.x += event.data.global.x - this.data.x;
-                        this.pixiApp.stage.position.y += event.data.global.y - this.data.y;
-
-                        this.data = {x: event.data.global.x, y: event.data.global.y};
-                        // Can probably optimize this, but oh wells
-                    }
-                };
-
-                this.pixiApp.stage
-                    .on('pointerdown', onDragStart)
-                    // events for drag end
-                    .on('pointerup', onDragEnd)
-                    // events for drag move
-                    .on('mousemove', onDragMove)
-                    .on('touchmove', onDragMove);
-
-
-                // Attaching the stage to the main app so rendering can be performed.
-
-                resolve();
-            });
-        });
-    }
-
-    loadGameSave(saveName) {
+    __loadGameSave(saveName) {
         return new Promise((resolve, reject) => {
             // The path has to be set from the working directory.
             jsonStorage.setDataPath(path.resolve("./src/data/saves"));
@@ -276,14 +169,14 @@ export default class GameCore {
         // Continue to do this while the lag is higher than that.
         while (this.lag >= this.speed) {
             // Passes through the amount of ticks since the last elapsed.
-            this.updateGameState(Math.floor(this.lag/this.speed));
+            this.__updateGameState(Math.floor(this.lag/this.speed));
             this.lag %= this.speed;
         }
 
         // Render the graphics with an idea of how much time has passed.
         // Passing in the lag helps better simulate the motion of projectiles and
         // other fast moving spritesheet on the game field.
-        this.renderGraphics(this.lag);
+        this.__renderGraphics(this.lag);
 
         if (this.config.debug) {
             this.config.debug.frames += 1;
@@ -300,7 +193,7 @@ export default class GameCore {
         requestAnimationFrame(this.gameLoop) // TODO find appropriate numbers.
     };
 
-    updateComponents(nameset, delta) {
+    __updateComponents(nameset, delta) {
         for (const componentName of nameset) {
             let componentList = this.components[componentName];
 
@@ -313,14 +206,13 @@ export default class GameCore {
         }
     }
 
-
-    updateGameState(delta) {
-        this.updateComponents(GameCore.gameComponentTypes, delta)
+    __updateGameState(delta) {
+        this.__updateComponents(GameCore.gameComponentTypes, delta)
     }
 
-    renderGraphics(lag) {
+    __renderGraphics(lag) {
         // TODO
-        this.updateComponents(GameCore.renderComponentTypes, lag);
+        this.__updateComponents(GameCore.renderComponentTypes, lag);
 
         if (this.reRenderMenus) {
             this.reRenderMenus = false;

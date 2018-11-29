@@ -8,6 +8,7 @@ import spritesheet from '../data/assets/spritesheet.png'
 import spritesheetJSON from '../data/assets/spritesheet.json';
 import GameObjectFactory from "../objects/GameObject";
 import {getPixiApp, RenderCore} from "./RenderCore";
+import MenuCore from "./MenuCore";
 
 
 export default class GameCore {
@@ -75,10 +76,8 @@ export default class GameCore {
             this.gameObjects[objectName] = [];
         }
 
-        this.openMenus = []; // TODO potentially consider an object to represent the positions of menus
-        this.reRenderMenus = false;
-
         this.renderCore = new RenderCore();
+        this.menuCore = new MenuCore();
 
         this.objectFactory = null;
 
@@ -211,18 +210,10 @@ export default class GameCore {
     }
 
     __renderGraphics(lag) {
-        // TODO
         this.__updateComponents(GameCore.renderComponentTypes, lag);
 
-        if (this.reRenderMenus) {
-            this.reRenderMenus = false;
-            ReactDOM.render(
-                <div>
-                    {this.openMenus}
-                </div>,
-                document.getElementById("reactEntry")
-            )
-        }
+        // TODO consider adding menuCore.reRenderMenus check here so is fast.
+        this.menuCore.update(this.components["menuComponents"]);
     }
 
     createNewGame(
@@ -251,16 +242,6 @@ export default class GameCore {
         } catch (e) {
             this.gameObjects["unnamed"].push(object);
         }
-    }
-
-    addMenu(component) {
-        this.openMenus.push(component);
-        this.reRenderMenus = true;
-    }
-
-    removeMenu(component) {
-        this.openMenus.splice(this.openMenus.indexOf(component), 1);
-        this.reRenderMenus = true;
     }
 
     addSprite(sprite) {

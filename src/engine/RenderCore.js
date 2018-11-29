@@ -8,6 +8,10 @@ const PIXI = require("pixi.js");
 export class RenderCore {
     constructor() {
         this.pixiApp = null;
+
+        this.dragging = false;
+        this.down = false;
+        this.data = null;
     }
 
     loadGameGraphics() {

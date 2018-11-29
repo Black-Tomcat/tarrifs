@@ -1,3 +1,12 @@
+/*
+*
+* Food for thought.
+* State is not held from component between unmount and remount
+* Props can change as if they were passed from a regular component due to rate of refreshes.
+* State should be used within context for things like modals/inputs and the likes.
+*
+* */
+
 import React, { Component } from 'react';
 import GameComponent from "./GameComponent";
 
@@ -8,20 +17,12 @@ export default class MenuComponent extends GameComponent {
     constructor(reactComponent, componentType="menuComponent") {
         super(componentType, "menuComponent");
         this.visible = true;
-        this.added = false;
+        this.added = true;
         this.menu = React.createRef();
         this.reactComponent = reactComponent;
     }
 
     update(gameCore, delta) {
-        if (this.visible && !this.added) {
-            gameCore.addMenu(<this.reactComponent ref={this.menu}/>);
-            this.added = true;
-        } else if (!this.visible && this.added) {
-            gameCore.removeMenu(<this.reactComponent ref={this.menu}/>);
-            this.added = false;
-        }
-
         return true;
     }
 
@@ -32,6 +33,16 @@ export default class MenuComponent extends GameComponent {
             this.visible = !this.visible;
         }
         return this.visible;
+    }
+
+    getReactComponent(component=false) {
+        if (!component) {
+            component = <this.reactComponent ref={this.menu}/>
+        }
+
+        if (this.visible) {
+            return component;
+        }
     }
 }
 

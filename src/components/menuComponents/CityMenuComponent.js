@@ -18,19 +18,16 @@ export default class CityMenuComponent extends MenuComponent {
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
             component.addEventListeners("pointertap", (ev) => {
-                if (!gameCore.dragging) { // TODO make this more clean I guess?
+                if (!gameCore.renderCore.dragging) { // TODO make this more clean I guess?
                     super.toggleVisible()
                 }
             });
         }
     }
 
-    update(gameCore, delta) {
-        super.update(gameCore, delta);
-        if (this.menu.current && !this.menu.current.state.initialized) {
-            this.menu.current.update({initialized: true, ...this.informationSibling.details});
-        }
-        return true; // Must always return true due to the nature of the super method.
+    getReactComponent() {
+        // TODO supply props needed for menu.
+        return super.getReactComponent(<this.reactComponent ref={this.menu}/>)
     }
 }
 
@@ -50,6 +47,12 @@ class CityReactComponent extends Component {
         })
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({initialized: true, cityName: "Dank Memers"});
+        }, 1000)
+    }
+
     render() {
         return (
             <Card
@@ -62,6 +65,7 @@ class CityReactComponent extends Component {
                 }}
             >
                 <h2>Details</h2>
+                {this.props.otherVar && <h3> REEEEEEEEEEE </h3>}
                 {
                     this.state.initialized &&
                     <List

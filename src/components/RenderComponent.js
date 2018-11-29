@@ -38,17 +38,21 @@ export default class RenderComponent extends GameComponent {
     // TODO Something about making proper functions to interact with gameCore.
     addComponent(gameCore) {
         if (this.sprites instanceof Array) {
-            gameCore.renderCore.pixiApp.stage.addChild(...this.sprites);
+            for (const sprite of this.sprites) {
+                gameCore.addSprite(sprite);
+            }
         } else {
-            gameCore.renderCore.pixiApp.stage.addChild(this.sprites);
+            gameCore.addSprite(this.sprites);
         }
     }
 
     removeComponent(gameCore) {
         if (this.sprites instanceof Array) {
-            gameCore.renderCore.pixiApp.stage.removeChild(...this.sprites);
+            for (const sprite of this.sprites) {
+                gameCore.removeSprite(sprite);
+            }
         } else {
-            gameCore.renderCore.pixiApp.stage.removeChild(this.sprites);
+            gameCore.removeSprite(this.sprites);
         }
     }
 

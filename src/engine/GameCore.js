@@ -262,4 +262,12 @@ export default class GameCore {
         this.openMenus.splice(this.openMenus.indexOf(component), 1);
         this.reRenderMenus = true;
     }
+
+    addSprite(sprite) {
+        this.renderCore.addSprite(sprite);
+    }
+
+    removeSprite(sprite) {
+        this.renderCore.removeSprite(sprite);
+    }
 }

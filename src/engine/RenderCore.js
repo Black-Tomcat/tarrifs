@@ -113,4 +113,12 @@ export class RenderCore {
             .on('mousemove', onDragMove)
             .on('touchmove', onDragMove);
     }
+
+    addSprite(sprite) {
+        this.pixiApp.stage.addChild(sprite);
+    }
+
+    removeSprite(sprite) {
+        this.pixiApp.stage.removeChild(sprite);
+    }
 }

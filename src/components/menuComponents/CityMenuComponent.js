@@ -22,8 +22,7 @@ export default class CityMenuComponent extends MenuComponent {
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
             component.addEventListeners("pointertap", (ev) => {
-                if (!gameCore.renderCore.dragging && super.toggleVisible()) {
-                    logger.info("SETTING MENU?");
+                if (!gameCore.renderCore.dragging) {
                     gameCore.menuCore.setMenu(this, "BOTTOMRIGHT");
                 }
             });

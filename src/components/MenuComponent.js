@@ -16,8 +16,6 @@ import { Card } from 'antd';
 export default class MenuComponent extends GameComponent {
     constructor(reactComponent, componentType="menuComponent") {
         super(componentType, "menuComponent");
-        this.visible = true;
-        this.added = true;
         this.menu = React.createRef();
         this.reactComponent = reactComponent;
     }
@@ -26,23 +24,12 @@ export default class MenuComponent extends GameComponent {
         return true;
     }
 
-    toggleVisible(value="toggle") {
-        if (value !== "toggle") {
-            this.visible = value;
-        } else {
-            this.visible = !this.visible;
-        }
-        return this.visible;
-    }
-
     getReactComponent(component=false) {
         if (!component) {
             component = <this.reactComponent ref={this.menu}/>
         }
 
-        if (this.visible) {
-            return component;
-        }
+        return component;
     }
 }
 
@@ -52,11 +39,6 @@ export class TrialReactMenu extends Component {
         this.state = {
             message: "This is a default message!"
         };
-    }
-
-    update(message) {
-        // if invoked, set new state
-        this.setState({message})
     }
 
     render() {

@@ -246,12 +246,4 @@ export default class GameCore {
             this.gameObjects["unnamed"].push(object);
         }
     }
-
-    addSprite(sprite) {
-        this.renderCore.addSprite(sprite);
-    }
-
-    removeSprite(sprite) {
-        this.renderCore.removeSprite(sprite);
-    }
 }

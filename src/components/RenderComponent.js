@@ -39,20 +39,20 @@ export default class RenderComponent extends GameComponent {
     addComponent(gameCore) {
         if (this.sprites instanceof Array) {
             for (const sprite of this.sprites) {
-                gameCore.addSprite(sprite);
+                gameCore.renderCore.addSprite(sprite);
             }
         } else {
-            gameCore.addSprite(this.sprites);
+            gameCore.renderCore.addSprite(this.sprites);
         }
     }
 
     removeComponent(gameCore) {
         if (this.sprites instanceof Array) {
             for (const sprite of this.sprites) {
-                gameCore.removeSprite(sprite);
+                gameCore.renderCore.removeSprite(sprite);
             }
         } else {
-            gameCore.removeSprite(this.sprites);
+            gameCore.renderCore.removeSprite(this.sprites);
         }
     }
 

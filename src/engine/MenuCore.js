@@ -40,8 +40,12 @@ export default class MenuCore {
         );
     }
 
-    setMenu(menuComponent, position) {
-        this.componentPositions[position] = menuComponent;
-        this.update();
+    // isToggle should be set to true, if you want the menu to open and close through the setMenu function.
+    setMenu(menuComponent, position, isToggle=false) {
+        if (isToggle && menuComponent === this.componentPositions[position]) {
+            this.componentPositions[position] = null;
+        } else {
+            this.componentPositions[position] = menuComponent;
+        }
     }
 }

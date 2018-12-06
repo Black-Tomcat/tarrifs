@@ -23,7 +23,7 @@ export default class CityMenuComponent extends MenuComponent {
             // Don't need to store the ref to the renderComponent, just need to link it
             component.addEventListeners("pointertap", (ev) => {
                 if (!gameCore.renderCore.dragging) {
-                    gameCore.menuCore.setMenu(this, "BOTTOMRIGHT");
+                    gameCore.menuCore.setMenu(this, "BOTTOMRIGHT", true);
                 }
             });
         }

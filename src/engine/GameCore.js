@@ -215,8 +215,7 @@ export default class GameCore {
     __renderGraphics(lag) {
         this.__updateComponents(GameCore.renderComponentTypes, lag);
 
-        // TODO consider adding menuCore.reRenderMenus check here so is fast.
-        this.menuCore.update(this.components["menuComponents"]);
+        this.menuCore.update()
     }
 
     createNewGame(

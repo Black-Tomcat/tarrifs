@@ -22,16 +22,22 @@ export default class CityMenuComponent extends MenuComponent {
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
             component.addEventListeners("pointertap", (ev) => {
-                if (!gameCore.renderCore.dragging) { // TODO make this more clean I guess?
-                    super.toggleVisible()
+                if (!gameCore.renderCore.dragging && super.toggleVisible()) {
+                    logger.info("SETTING MENU?");
+                    gameCore.menuCore.setMenu(this, "BOTTOMRIGHT");
                 }
             });
         }
     }
 
     getReactComponent() {
-        // TODO supply props needed for menu.
-        return super.getReactComponent(<this.reactComponent ref={this.menu}/>)
+        // TODO tell game menu to update from this part c;
+        return super.getReactComponent(
+            <this.reactComponent
+                ref={this.menu}
+                cityName={this.informationSibling.details.cityName}
+            />
+        )
     }
 }
 
@@ -40,21 +46,8 @@ class CityReactComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initialized: false,
-            cityName: ""
+
         }
-    }
-
-    update(message) {
-        this.setState({
-            ...message
-        })
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({initialized: true, cityName: "Dank Memers"});
-        }, 1000)
     }
 
     render() {
@@ -69,18 +62,14 @@ class CityReactComponent extends Component {
                 }}
             >
                 <h2>Details</h2>
-                {this.props.otherVar && <h3> REEEEEEEEEEE </h3>}
-                {
-                    this.state.initialized &&
-                    <List
-                        size="small"
-                        bordered
-                        dataSource={[
-                            ["Name", this.state.cityName]
-                        ]}
-                        renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
-                    />
-                }
+                <List
+                    size="small"
+                    bordered
+                    dataSource={[
+                        ["Name", this.props.cityName]
+                    ]}
+                    renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
+                />
             </Card>
         )
     }

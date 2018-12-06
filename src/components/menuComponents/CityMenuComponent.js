@@ -3,7 +3,11 @@
 import React, { Component } from 'react';
 import { Card, List } from 'antd';
 import MenuComponent from "../MenuComponent";
+import Logger from "../../utils/Logger";
 
+
+
+const logger = Logger.getLogger();
 
 export default class CityMenuComponent extends MenuComponent {
     constructor() {

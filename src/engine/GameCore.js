@@ -9,7 +9,9 @@ import spritesheetJSON from '../data/assets/spritesheet.json';
 import GameObjectFactory from "../objects/GameObject";
 import {getPixiApp, RenderCore} from "./RenderCore";
 import MenuCore from "./MenuCore";
+import Logger from "../utils/Logger";
 
+const logger = Logger.getLogger();
 
 export default class GameCore {
     static UPDATE_LENGTH = {
@@ -86,6 +88,14 @@ export default class GameCore {
 
     startGame() {
         const startGameLoop = () => {
+            if (this.config.debug) {
+                setInterval(() => {
+                    logger.debug("frames: " + this.config.debug.frames);
+                    this.config.debug.frames = 0;
+                    logger.debug(this);
+                }, 1000);
+            }
+
             this.previous = new Date().getTime();
             this.gameLoop();
         };
@@ -179,13 +189,6 @@ export default class GameCore {
 
         if (this.config.debug) {
             this.config.debug.frames += 1;
-            this.config.debug.frames_time += elapsed;
-            if (this.config.debug.frames_time >= 1000) {
-                this.config.debug.frames_time -= 1000;
-                console.log("frames: ", this.config.debug.frames);
-                this.config.debug.frames = 0;
-                console.log(this);
-            }
         }
 
         // recall the game loop, and free up assets for Electron/PIXI

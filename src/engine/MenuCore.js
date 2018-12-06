@@ -1,5 +1,9 @@
 import ReactDOM from "react-dom";
 import React from "react";
+import Logger from "../utils/Logger";
+
+
+const logger = Logger.getLogger();
 
 export default class MenuCore {
     update(menuComponents) {

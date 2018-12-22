@@ -92,7 +92,7 @@ export default class GameCore {
                 setInterval(() => {
                     logger.debug("frames: " + this.config.debug.frames);
                     this.config.debug.frames = 0;
-                    logger.debug(this);
+                    logger.debug("GameCore: ", this);
                 }, 1000);
             }
 

@@ -34,6 +34,15 @@ Cities produce things. Things can be sold. Selling things means that there's mon
 }
 ```
 
+#### Project 
+```
+{
+  recipe: {{recipe},
+  currentCosts: { "" resource/"time" ": **amount*, ... },
+  priority: **priority (lower = greater priority)*
+}
+```
+
 ## Merchants
 Extending on the idea of buying and selling things within a town, wouldn't it be better if you could move the items around, and sell them where they're more expensive, or buy them in cheaper places to get more money out of the mix.
 

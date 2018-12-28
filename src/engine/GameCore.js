@@ -24,7 +24,8 @@ export default class GameCore {
     // TODO move this to config area in order to make it fully modular.
     static gameComponentTypes = [
         "physicsComponents",
-        "informationComponents"
+        "informationComponents",
+        "productionComponents"
     ];
 
     static renderComponentTypes = [
@@ -178,6 +179,7 @@ export default class GameCore {
         // Continue to do this while the lag is higher than that.
         while (this.lag >= this.speed) {
             // Passes through the amount of ticks since the last elapsed.
+            // Delta is passed as game ticks, not as milliseconds since last update.
             this.__updateGameState(Math.floor(this.lag/this.speed));
             this.lag %= this.speed;
         }

@@ -45,10 +45,10 @@ export default class GameObjectFactory {
             "city",
             gameCore,
             {
-                physicsComponent: new PhysicsComponent(location),
-                renderComponent: new RenderComponent(new PIXI.Sprite(this.textureObject["town"])),
-                menuComponent: new CityMenuComponent(),
-                informationComponent: new InformationComponent(details)
+                physicsComponent: new PhysicsComponent(gameCore, location),
+                renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject["town"])),
+                menuComponent: new CityMenuComponent(gameCore),
+                informationComponent: new InformationComponent(gameCore, details)
             }
         )
     }
@@ -58,8 +58,8 @@ export default class GameObjectFactory {
             "merchant",
             gameCore,
             {
-                physicsComponent: new PhysicsComponent(location),
-                renderComponent: new RenderComponent(new PIXI.Sprite(this.textureObject['merchant']))
+                physicsComponent: new PhysicsComponent(gameCore, location),
+                renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject['merchant']))
             }
         )
     }

@@ -14,8 +14,8 @@ import { Card } from 'antd';
 
 
 export default class MenuComponent extends GameComponent {
-    constructor(reactComponent, componentType="menuComponent") {
-        super(componentType, "menuComponent");
+    constructor(gameCore, reactComponent, componentType = "menuComponent") {
+        super(gameCore, componentType, "menuComponent");
         this.menu = React.createRef();
         this.reactComponent = reactComponent;
     }
@@ -24,7 +24,7 @@ export default class MenuComponent extends GameComponent {
         return true;
     }
 
-    getReactComponent(component=false) {
+    getReactComponent(gameCore, component=false) {
         if (!component) {
             component = <this.reactComponent ref={this.menu}/>
         }

@@ -33,7 +33,7 @@ export default class mapRenderComponent extends RenderComponent{
             }
         }
 
-        super(sprites, "mapRenderComponent");
+        super(gameCore, sprites, "mapRenderComponent");
 
         this.mapTextures = textures;
     }

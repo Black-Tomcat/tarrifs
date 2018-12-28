@@ -3,8 +3,8 @@ import ProductionComponent from "../ProductionComponent";
 
 
 export default class CityProductionComponent extends ProductionComponent{
-    constructor() {
-        super("cityProductionComponent", "productionComponent");
+    constructor(gameCore) {
+        super(gameCore, "cityProductionComponent", "productionComponent");
     }
 
     update(gameEngine, delta) {

@@ -2,8 +2,8 @@ import GameComponent from "./GameComponent";
 
 // The game component that manages the production of one entity.
 export default class ProductionComponent extends GameComponent {
-    constructor(initialStockpile, producers, componentType="productionComponent") {
-        super(componentType, "productionComponent");
+    constructor(gameCore, initialStockpile, producers, componentType = "productionComponent") {
+        super(gameCore, componentType, "productionComponent");
 
         this.stockpile = {};
 
@@ -33,6 +33,8 @@ class Producer {
     }
 
     update(delta) {
+        // TODO update the stockpile also in this method.
+        // TODO also create new projects as needed.
         for (const project in this.currentProjects) {
             if (this.currentProjects[project].update(delta, this)) {
                 this.currentProjects.splice(project, 1);

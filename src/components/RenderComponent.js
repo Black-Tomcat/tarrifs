@@ -2,8 +2,8 @@ import GameComponent from "./GameComponent";
 
 
 export default class RenderComponent extends GameComponent {
-    constructor(sprites=[], componentType="renderComponent") {
-        super(componentType, "renderComponent");
+    constructor(gameCore, sprites = [], componentType = "renderComponent") {
+        super(gameCore, componentType, "renderComponent");
 
         this.sprites = sprites;
         this.physicsSibling = null;

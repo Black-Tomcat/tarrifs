@@ -10,8 +10,8 @@ import Logger from "../../utils/Logger";
 const logger = Logger.getLogger();
 
 export default class CityMenuComponent extends MenuComponent {
-    constructor() {
-        super(CityReactComponent, "cityMenuComponent");
+    constructor(gameCore) {
+        super(gameCore, CityReactComponent, "cityMenuComponent");
 
         this.informationSibling = null;
     }
@@ -29,7 +29,7 @@ export default class CityMenuComponent extends MenuComponent {
         }
     }
 
-    getReactComponent() {
+    getReactComponent(gameCore) {
         // TODO tell game menu to update from this part c;
         return super.getReactComponent(
             <this.reactComponent

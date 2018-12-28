@@ -12,7 +12,7 @@ export default class GameComponent {
     * removeComponent()
     * */
 
-    constructor(componentType, superType) {
+    constructor(gameCore, componentType, superType) {
         this.componentType = componentType;
         this.superType = superType;
     }

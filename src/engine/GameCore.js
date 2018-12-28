@@ -217,7 +217,7 @@ export default class GameCore {
     __renderGraphics(lag) {
         this.__updateComponents(GameCore.renderComponentTypes, lag);
 
-        this.menuCore.update()
+        this.menuCore.update(this)
     }
 
     createNewGame(

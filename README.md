@@ -10,7 +10,6 @@ Cities produce things. Things can be sold. Selling things means that there's mon
 #### Cities
 ```
 { 
-  
   producers: [ {{producer}, ...]
 }
 ```
@@ -19,11 +18,38 @@ Cities produce things. Things can be sold. Selling things means that there's mon
 ```
 {
   // Recipies known to that craftsperson
-  recipies = { ""key": {{recipe}, ... }
-  stockpile = { ""key": **amount*, ... } 
+  recipes = { ""key": {{recipe}, ... }
+  stockpile = { ""resouce": **amount*, ... } 
   currentProjects = [ {{project}, ... ]
+}
+```
+
+#### Recipe 
+```
+{
+  costs: { "" resource/"time" ": **amount*, ... },
+  totalTime: **time*
+  totalResources: **resouces*
+  // materialsPerTurn: Math.ceil(totalResouces/totalTime) //
+}
+```
+
+#### Project 
+```
+{
+  recipe: {{recipe},
+  currentCosts: { "" resource/"time" ": **amount*, ... },
+  priority: **priority (lower = greater priority)*
 }
 ```
 
 ## Merchants
 Extending on the idea of buying and selling things within a town, wouldn't it be better if you could move the items around, and sell them where they're more expensive, or buy them in cheaper places to get more money out of the mix.
+
+### Key
+```
+""something" = string
+**something* = number
+{{something} = object/class
+// Not included, but important none the less //
+```

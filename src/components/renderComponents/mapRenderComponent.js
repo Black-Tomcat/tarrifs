@@ -15,7 +15,7 @@ export default class mapRenderComponent extends RenderComponent{
         y: 50
     };
 
-    constructor(gameCore, textures, mapTerrain=false, startingCoords={x:0, y:0}) {
+    constructor(gameCore, gameObject, textures, mapTerrain=false, startingCoords={x:0, y:0}) {
         const sprites = [];
 
         if (!mapTerrain) {
@@ -33,7 +33,7 @@ export default class mapRenderComponent extends RenderComponent{
             }
         }
 
-        super(gameCore, sprites, "mapRenderComponent");
+        super(gameCore, gameObject, sprites, "mapRenderComponent");
 
         this.mapTextures = textures;
     }

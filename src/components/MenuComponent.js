@@ -17,8 +17,8 @@ import Logger from "../utils/Logger";
 const logger = Logger.getLogger();
 
 export default class MenuComponent extends GameComponent {
-    constructor(gameCore, reactComponent, componentType = "menuComponent") {
-        super(gameCore, componentType, "menuComponent");
+    constructor(gameCore, gameObject, reactComponent, componentType = "menuComponent") {
+        super(gameCore, gameObject, componentType, "menuComponent");
         this.menu = React.createRef();
         this.reactComponent = reactComponent;
     }

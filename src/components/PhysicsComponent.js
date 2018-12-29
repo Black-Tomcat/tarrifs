@@ -2,8 +2,8 @@ import GameComponent from "./GameComponent";
 
 
 export default class PhysicsComponent extends GameComponent{
-    constructor(gameCore, pos) {
-        super(gameCore, "physicsComponent", "physicsComponent");
+    constructor(gameCore, gameObject, pos) {
+        super(gameCore, gameObject, "physicsComponent", "physicsComponent");
         this.pos = {
             x: pos.x,
             y: pos.y

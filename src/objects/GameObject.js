@@ -8,20 +8,21 @@ import ProductionComponent from "../components/ProductionComponent";
 
 
 class GameObject {
-    constructor(objecType, gameCore, components, details={}) {
-        // Get components
-        this.objectType = objecType;
+    constructor(objectType, gameCore, details={}) {
+        this.objectType = objectType;
 
         this.components = {};
-
-        for (const component of Object.keys(components)) {
-            this.addComponent(components[component], gameCore)
-        }
 
         this.details = details;
     }
 
-    addComponent(component, gameCore) {
+    addComponentsToObject(components, gameCore) {
+        for (const componentType of Object.keys(components)) {
+            this.__addComponent(components[componentType], gameCore)
+        }
+    }
+
+    __addComponent(component, gameCore) {
         for (const objectComponent of Object.keys(this.components)) {
             // Link both to incoming component and all the pre existing components.
             this.components[objectComponent].linkSibling(component, gameCore);
@@ -42,55 +43,68 @@ export default class GameObjectFactory {
     }
 
     createNewCity(gameCore, location, details) {
-        return new GameObject(
+        const city = new GameObject(
             "city",
             gameCore,
-            {
-                physicsComponent: new PhysicsComponent(gameCore, location),
-                renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject["town"])),
-                menuComponent: new CityMenuComponent(gameCore),
-                informationComponent: new InformationComponent(gameCore, details),
-                productionComponent: new ProductionComponent(
-                    gameCore,
-                    {
-                        wood: 100,
-                        gold: 200,
-                        iron: 50
-                    },
-                    []
-                )
-            }
-        )
+        );
+
+        city.addComponentsToObject({
+            physicsComponent: new PhysicsComponent(gameCore, city, location),
+            renderComponent: new RenderComponent(gameCore, city, new PIXI.Sprite(this.textureObject["town"])),
+            menuComponent: new CityMenuComponent(gameCore, city),
+            informationComponent: new InformationComponent(gameCore, city, details),
+            productionComponent: new ProductionComponent(
+                gameCore,
+                city,
+                {
+                    wood: 100,
+                    gold: 200,
+                    iron: 50
+                },
+                []
+            )
+        }, gameCore);
+
+        return city;
     }
 
     createNewMerchant(gameCore, location) {
-        return new GameObject(
+        const merchant = new GameObject(
             "merchant",
-            gameCore,
-            {
-                physicsComponent: new PhysicsComponent(gameCore, location),
-                renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject['merchant']))
-            }
-        )
+            gameCore
+        );
+
+        merchant.addComponentsToObject({
+            physicsComponent: new PhysicsComponent(gameCore, location),
+            renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject['merchant']))
+        }, gameCore);
+
+        return merchant
     }
 
     createNewMap(gameCore) {
-        return new GameObject(
+        const map = new GameObject(
             "gameMap",
-            gameCore,
-            {
-                renderComponent: new mapRenderComponent(gameCore, this.textureObject, false)
-            }
-        )
+            gameCore
+        );
+
+        map.addComponentsToObject({
+            renderComponent: new mapRenderComponent(gameCore, this.textureObject, false)
+        }, gameCore);
+
+        return map;
     }
 
     createMap(gameCore, mapTerrain) {
-        return new GameObject(
+        const map = new GameObject(
             "gameMap",
-            gameCore,
-            {
-                renderComponent: new mapRenderComponent(gameCore, this.textureObject, mapTerrain)
-            }
-        )
+            gameCore
+        );
+
+        map.addComponentsToObject({
+            renderComponent: new mapRenderComponent(gameCore, map, this.textureObject, mapTerrain)
+        }, gameCore);
+
+        return map;
     }
 }

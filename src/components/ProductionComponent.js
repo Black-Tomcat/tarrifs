@@ -2,8 +2,8 @@ import GameComponent from "./GameComponent";
 
 // The game component that manages the production of one entity.
 export default class ProductionComponent extends GameComponent {
-    constructor(gameCore, initialStockpile, producers = [], componentType = "productionComponent") {
-        super(gameCore, componentType, "productionComponent");
+    constructor(gameCore, gameObject, initialStockpile, producers = [], componentType = "productionComponent") {
+        super(gameCore, gameObject, componentType, "productionComponent");
 
         this.stockpile = initialStockpile;
 

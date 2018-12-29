@@ -9,9 +9,9 @@ import Logger from "../../utils/Logger";
 const logger = Logger.getLogger();
 
 export default class CityMenuComponent extends MenuComponent {
-    constructor(gameCore) {
+    constructor(gameCore, gameObject) {
         const reactComponent = CityReactComponent;
-        super(gameCore, reactComponent, "cityMenuComponent");
+        super(gameCore, gameObject, reactComponent, "cityMenuComponent");
 
         this.informationSibling = null;
         this.productionSibling = null;

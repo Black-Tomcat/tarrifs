@@ -6,15 +6,17 @@ export default class GameComponent {
     *
     * constructor()
     * linkSibling(x), ...
-    * addComponent()
+    * __addComponent()
     * update(), ...
     *   return false if inactive from that point. Otherwise, return true.
     * removeComponent()
     * */
 
-    constructor(gameCore, componentType, superType) {
+    constructor(gameCore, gameObject, componentType, superType, details={}) {
+        this.gameObject = gameObject;
         this.componentType = componentType;
         this.superType = superType;
+        this.details = details;
     }
 
     linkSibling(component) {

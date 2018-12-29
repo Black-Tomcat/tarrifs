@@ -11,7 +11,10 @@ import React, { Component } from 'react';
 import GameComponent from "./GameComponent";
 
 import { Card } from 'antd';
+import Logger from "../utils/Logger";
 
+
+const logger = Logger.getLogger();
 
 export default class MenuComponent extends GameComponent {
     constructor(gameCore, reactComponent, componentType = "menuComponent") {
@@ -26,6 +29,7 @@ export default class MenuComponent extends GameComponent {
 
     getReactComponent(gameCore, component=false) {
         if (!component) {
+            logger.warning("While no component was specified, there probably was meant to be a component here.");
             component = <this.reactComponent ref={this.menu}/>
         }
 

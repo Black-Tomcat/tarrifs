@@ -2,12 +2,12 @@ import GameComponent from "./GameComponent";
 
 // The game component that manages the production of one entity.
 export default class ProductionComponent extends GameComponent {
-    constructor(gameCore, initialStockpile, producers, componentType = "productionComponent") {
+    constructor(gameCore, initialStockpile, producers = [], componentType = "productionComponent") {
         super(gameCore, componentType, "productionComponent");
 
-        this.stockpile = {};
+        this.stockpile = initialStockpile;
 
-        this.producers = []
+        this.producers = producers
     }
 
     // Within the update function, the ProductionComponent should be passed down as a reference to the other objects.

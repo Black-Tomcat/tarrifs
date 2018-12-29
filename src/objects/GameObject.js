@@ -4,6 +4,7 @@ import mapRenderComponent from "../components/renderComponents/mapRenderComponen
 import React from "react";
 import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
 import InformationComponent from "../components/InformationComponent";
+import ProductionComponent from "../components/ProductionComponent";
 
 
 class GameObject {
@@ -48,7 +49,16 @@ export default class GameObjectFactory {
                 physicsComponent: new PhysicsComponent(gameCore, location),
                 renderComponent: new RenderComponent(gameCore, new PIXI.Sprite(this.textureObject["town"])),
                 menuComponent: new CityMenuComponent(gameCore),
-                informationComponent: new InformationComponent(gameCore, details)
+                informationComponent: new InformationComponent(gameCore, details),
+                productionComponent: new ProductionComponent(
+                    gameCore,
+                    {
+                        wood: 100,
+                        gold: 200,
+                        iron: 50
+                    },
+                    []
+                )
             }
         )
     }

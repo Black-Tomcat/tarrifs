@@ -1,23 +1,26 @@
 // TODO figure out how to link in the informationComponent.
 
 import React, { Component } from 'react';
-import { Card, List } from 'antd';
+import { Card, List, Row, Col } from 'antd';
 import MenuComponent from "../MenuComponent";
 import Logger from "../../utils/Logger";
-
 
 
 const logger = Logger.getLogger();
 
 export default class CityMenuComponent extends MenuComponent {
     constructor(gameCore) {
-        super(gameCore, CityReactComponent, "cityMenuComponent");
+        const reactComponent = CityReactComponent;
+        super(gameCore, reactComponent, "cityMenuComponent");
 
         this.informationSibling = null;
+        this.productionSibling = null;
     }
 
     linkSibling(component, gameCore) {
-        if (component.superType === "informationComponent") {
+        if(component.superType === "productionComponent") {
+            this.productionSibling = component;
+        } else if (component.superType === "informationComponent") {
             this.informationSibling = component;
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
@@ -32,9 +35,11 @@ export default class CityMenuComponent extends MenuComponent {
     getReactComponent(gameCore) {
         // TODO tell game menu to update from this part c;
         return super.getReactComponent(
+            gameCore,
             <this.reactComponent
                 ref={this.menu}
                 cityName={this.informationSibling.details.cityName}
+                productionComponent={this.productionSibling}
             />
         )
     }
@@ -50,6 +55,7 @@ class CityReactComponent extends Component {
     }
 
     render() {
+        const {cityName, productionComponent} = this.props;
         return (
             <Card
                 title={<h1>City Menu Component</h1>}
@@ -65,10 +71,34 @@ class CityReactComponent extends Component {
                     size="small"
                     bordered
                     dataSource={[
-                        ["Name", this.props.cityName]
+                        ["Name", cityName]
                     ]}
                     renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
                 />
+                <Row>
+                    <Col span={12}>
+                        <h4>Stockpile</h4>
+                        <List
+                            size="small"
+                            bordered
+                            dataSource={Object.keys(productionComponent.stockpile).map((key) => {
+                                return [key, productionComponent.stockpile[key]]
+                            })}
+                            renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <h4>Stockpile</h4>
+                        <List
+                            size="small"
+                            bordered
+                            dataSource={Object.keys(productionComponent.stockpile).map((key) => {
+                                return [key, productionComponent.stockpile[key]]
+                            })}
+                            renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
+                        />
+                    </Col>
+                </Row>
             </Card>
         )
     }

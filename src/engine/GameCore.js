@@ -24,7 +24,6 @@ export default class GameCore {
     // TODO move this to config area in order to make it fully modular.
     static gameComponentTypes = [
         "physicsComponents",
-        "informationComponents",
         "productionComponents"
     ];
 

@@ -3,7 +3,6 @@ import RenderComponent from "../components/RenderComponent";
 import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
 import React from "react";
 import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
-import InformationComponent from "../components/InformationComponent";
 import ProductionComponent from "../components/ProductionComponent";
 
 
@@ -46,13 +45,13 @@ export default class GameObjectFactory {
         const city = new GameObject(
             "city",
             gameCore,
+            details
         );
 
         city.addComponentsToObject({
             physicsComponent: new PhysicsComponent(gameCore, city, location),
             renderComponent: new RenderComponent(gameCore, city, new PIXI.Sprite(this.textureObject["town"])),
             menuComponent: new CityMenuComponent(gameCore, city),
-            informationComponent: new InformationComponent(gameCore, city, details),
             productionComponent: new ProductionComponent(
                 gameCore,
                 city,

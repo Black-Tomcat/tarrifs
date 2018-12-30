@@ -13,15 +13,12 @@ export default class CityMenuComponent extends MenuComponent {
         const reactComponent = CityReactComponent;
         super(gameCore, gameObject, reactComponent, "cityMenuComponent");
 
-        this.informationSibling = null;
         this.productionSibling = null;
     }
 
     linkSibling(component, gameCore) {
         if(component.superType === "productionComponent") {
             this.productionSibling = component;
-        } else if (component.superType === "informationComponent") {
-            this.informationSibling = component;
         } else if (component.superType === "renderComponent") {
             // Don't need to store the ref to the renderComponent, just need to link it
             component.addEventListeners("pointertap", (ev) => {
@@ -38,7 +35,7 @@ export default class CityMenuComponent extends MenuComponent {
             gameCore,
             <this.reactComponent
                 ref={this.menu}
-                cityName={this.informationSibling.details.cityName}
+                cityName={this.gameObject.details["cityName"]}
                 productionComponent={this.productionSibling}
             />
         )

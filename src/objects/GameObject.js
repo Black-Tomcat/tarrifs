@@ -4,6 +4,9 @@ import mapRenderComponent from "../components/renderComponents/mapRenderComponen
 import React from "react";
 import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
 import ProductionComponent from "../components/ProductionComponent";
+import Logger from "../utils/Logger";
+
+const logger = Logger.getLogger();
 
 
 class GameObject {
@@ -39,6 +42,19 @@ class GameObject {
 export default class GameObjectFactory {
     constructor(textureObject) {
         this.textureObject = textureObject;
+    }
+
+    restoreObject(gameCore, object) {
+        switch (object.objectType) {
+            case "city":
+                return this.createNewCity(gameCore, object.components.physicsComponent.pos, object.details);
+            case "merchant":
+                return this.createNewMerchant(gameCore, object.components.physicsComponent.pos);
+            case "gameMap":
+                return this.createMap(gameCore, object.components.renderComponent.mapTerrain);
+            default:
+                throw new Error("The gameObject doesn't have a type");
+        }
     }
 
     createNewCity(gameCore, location, details) {
@@ -79,19 +95,6 @@ export default class GameObjectFactory {
         }, gameCore);
 
         return merchant
-    }
-
-    createNewMap(gameCore) {
-        const map = new GameObject(
-            "gameMap",
-            gameCore
-        );
-
-        map.addComponentsToObject({
-            renderComponent: new mapRenderComponent(gameCore, this.textureObject, false)
-        }, gameCore);
-
-        return map;
     }
 
     createMap(gameCore, mapTerrain) {

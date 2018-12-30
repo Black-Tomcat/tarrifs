@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import jsonStorage from 'electron-json-storage';
 const PIXI = require("pixi.js");
 import path from "path";
+import async from 'async';
 
 import spritesheet from '../data/assets/spritesheet.png'
 import spritesheetJSON from '../data/assets/spritesheet.json';
@@ -10,6 +11,7 @@ import GameObjectFactory from "../objects/GameObject";
 import {getPixiApp, RenderCore} from "./RenderCore";
 import MenuCore from "./MenuCore";
 import Logger from "../utils/Logger";
+import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
 
 const logger = Logger.getLogger();
 
@@ -54,29 +56,29 @@ export default class GameCore {
         return config;
     }
 
+    toJSON(key) {
+        if (key) {
+            return "[GameCore]"
+        }
+
+        const gameCore = Object.assign({}, this);
+        gameCore.renderCore = "[RenderCore]";
+        gameCore.menuCore = "[MenuCore]";
+        gameCore.objectFactory = "[objectFactory]";
+
+        gameCore.components = "[components]";
+        return gameCore;
+    }
+
     constructor(options={}) {
         this.speed = GameCore.UPDATE_LENGTH.NORMAL;
         this.previous = null;
         this.lag = 0;
 
-        this.components = {
-            inactive: []
-        };
+        this.gameObjects = null;
+        this.components = null;
 
-        this.gameObjects = {
-            unnamed: []
-        };
-
-        for (const componentName of [
-            ...GameCore.gameComponentTypes,
-            ...GameCore.renderComponentTypes
-        ]) {
-            this.components[componentName] = []
-        }
-
-        for (const objectName of GameCore.gameObjectTypes) {
-            this.gameObjects[objectName] = [];
-        }
+        this.__setupGameObjects();
 
         this.renderCore = new RenderCore();
         this.menuCore = new MenuCore();
@@ -84,6 +86,25 @@ export default class GameCore {
         this.objectFactory = null;
 
         this.config = GameCore.createConfig(options)
+    }
+
+    __setupGameObjects() {
+        this.gameObjects = {
+            unnamed: []
+        };
+        for (const objectName of GameCore.gameObjectTypes) {
+            this.gameObjects[objectName] = [];
+        }
+
+        this.components = {
+            inactive: []
+        };
+        for (const componentName of [
+            ...GameCore.gameComponentTypes,
+            ...GameCore.renderComponentTypes
+        ]) {
+            this.components[componentName] = []
+        }
     }
 
     startGame() {
@@ -107,6 +128,9 @@ export default class GameCore {
             // Load in dummy game
             if (this.config.debug) {
                 this.__loadGameSave("debug").then(() => {
+                    startGameLoop();
+                }).catch(() => {
+                    this.createNewGame();
                     startGameLoop();
                 });
             } else {
@@ -151,7 +175,10 @@ export default class GameCore {
                     jsonStorage.get(saveName, (err, data) => {
                         if (err) reject(err);
 
-                        this.createNewGame(data.mapTerrain, data.cities);
+                        // data being the equivalent of this.gameObjects.
+                        this.__restoreGameState(data);
+
+                        // this.createNewGame(data.mapTerrain, data.cities);
 
                         resolve();
                     });
@@ -160,6 +187,40 @@ export default class GameCore {
                     reject("There was no save under the name of '" + saveName + "'.");
                 }
             })
+        })
+    }
+
+    __restoreGameState(gameCore) {
+        this.__setupGameObjects();
+
+        // Clean instance of each.
+        delete this.renderCore;
+        delete this.menuCore;
+
+        this.renderCore = new RenderCore();
+        this.menuCore = new MenuCore();
+
+        // TODO Come up with a better way to load graphics so it doesn't have to be reloaded between saves?
+        // Considering it might be useful to keep this functionality here if separate skins were going to be used from game to game.
+        this.renderCore.loadGameGraphics().then((objectFactory) => {
+            this.objectFactory = objectFactory;
+            for (const gameObjects of Object.values(gameCore.gameObjects)) {
+                for (const gameObject of gameObjects) {
+                    this.addNewGameObject(this.objectFactory.restoreObject(this, gameObject))
+                }
+            }
+        });
+    }
+
+    __saveGameSave(saveName) {
+        return new Promise((resolve, reject) => {
+            jsonStorage.setDataPath(path.resolve("./src/data/saves"));
+
+            jsonStorage.set(saveName, this, (err) => {
+                if (err) reject(err);
+
+                resolve();
+            });
         })
     }
 
@@ -221,12 +282,49 @@ export default class GameCore {
 
     createNewGame(
         mapTerrain=false,
-        cities=[]
+        cities="random"
     ) {
+        if (!mapTerrain) {
+            mapTerrain = mapRenderComponent.generateTerrain();
+        }
+
         this.addNewGameObject(this.objectFactory.createMap(this, mapTerrain));
         // TODO patch hack
+        let mapComponent;
+
+        for (const object of this.gameObjects.unnamed) {
+            if (object.objectType === "gameMap") {
+                mapComponent = object.components.renderComponent;
+            }
+        }
+
+        if (cities === "random") {
+            cities = [];
+            while (true) {
+                const randX = Math.floor(Math.random() * mapRenderComponent.defaultSize.x);
+                const randY = Math.floor(Math.random() * mapRenderComponent.defaultSize.y);
+
+                if (mapTerrain[randX][randY] === 1) {
+                    cities.push({
+                        pos: {
+                            x: randX * mapComponent.mapTextures.metadata.tileSize,
+                            y: randY * mapComponent.mapTextures.metadata.tileSize
+                        },
+                        details: {
+                            cityName: "randCity" + (cities.length + 1)
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+
         for (const city of cities) {
             this.addNewGameObject(this.objectFactory.createNewCity(this, city.pos, city.details))
+        }
+
+        if (this.config.debug) {
+            this.__saveGameSave("debug");
         }
     }
 

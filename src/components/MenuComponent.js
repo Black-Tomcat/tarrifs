@@ -23,6 +23,14 @@ export default class MenuComponent extends GameComponent {
         this.reactComponent = reactComponent;
     }
 
+    toJSON(key) {
+        const that = super.toJSON(key);
+
+        that.menu = "[ReactRef]";
+        that.reactComponent = "["+this.reactComponent.name+"]";
+        return that;
+    }
+
     update(gameCore, delta) {
         return true;
     }

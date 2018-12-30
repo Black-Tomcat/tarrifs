@@ -17,6 +17,14 @@ export default class RenderComponent extends GameComponent {
         }
     }
 
+    toJSON(key) {
+        const that = super.toJSON(key);
+
+        that.sprites = "[Sprite(s)]";
+        that.physicsSibling = "[physicsSibling]";
+        return that
+    }
+
     linkSibling(component) {
         if (component.superType === "physicsComponent") {
             this.physicsSibling = component;

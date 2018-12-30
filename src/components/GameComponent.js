@@ -19,6 +19,20 @@ export default class GameComponent {
         this.details = details;
     }
 
+    toJSON(key) {
+        if (key) {
+            const that = Object.assign({}, this);
+            that.gameObject = "[gameObject]";
+
+            // Remove redundant information
+            delete that.componentType;
+
+            return that;
+        }
+
+        return this;
+    }
+
     linkSibling(component) {
 
     }

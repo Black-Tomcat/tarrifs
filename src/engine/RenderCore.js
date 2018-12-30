@@ -4,6 +4,10 @@ import GameObjectFactory from "../objects/GameObject";
 
 const PIXI = require("pixi.js");
 
+import Logger from "../utils/Logger";
+
+const logger = Logger.getLogger();
+
 
 export class RenderCore {
     constructor() {
@@ -31,10 +35,16 @@ export class RenderCore {
 
             this.__setupMovementControls();
 
-            // TODO if you want to make a unique standalone game engine, simply make this loader 'modular'
-            PIXI.loader.add(
-                "spritesheet", spritesheet
-            ).load((loader, resources) => {
+            try {
+                // TODO if you want to make a unique standalone game engine, simply make this loader 'modular'
+                PIXI.loader.add(
+                    "spritesheet", spritesheet
+                );
+            } catch (e) {
+                logger.warning(e)
+            }
+
+            PIXI.loader.load((loader, resources) => {
                 const spritesheet = new PIXI.Spritesheet(
                     resources["spritesheet"].texture.baseTexture,
                     spritesheetJSON

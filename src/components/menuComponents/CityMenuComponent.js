@@ -16,6 +16,14 @@ export default class CityMenuComponent extends MenuComponent {
         this.productionSibling = null;
     }
 
+    toJSON(key) {
+        const that = super.toJSON(key);
+
+        that.productionSibling = "[productionSibling]";
+
+        return that;
+    }
+
     linkSibling(component, gameCore) {
         if(component.superType === "productionComponent") {
             this.productionSibling = component;

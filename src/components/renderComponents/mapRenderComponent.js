@@ -7,7 +7,6 @@ export default class mapRenderComponent extends RenderComponent{
     static terrainKeys = {
         0: "ocean",
         1: "land",
-        2: "town"
     };
 
     static defaultSize = {
@@ -36,13 +35,21 @@ export default class mapRenderComponent extends RenderComponent{
         super(gameCore, gameObject, sprites, "mapRenderComponent");
 
         this.mapTextures = textures;
+        this.mapTerrain = mapTerrain;
+    }
+
+    toJSON(key) {
+        const that = super.toJSON(key);
+
+        that.mapTextures = "[mapTextures]";
+        return that;
     }
 
     linkSibling(component) {
         // blank to override parent
     }
 
-    update(gameEngine, lag) {
+    update(gameCore, lag) {
         return false;
     }
 
@@ -56,8 +63,17 @@ export default class mapRenderComponent extends RenderComponent{
         for (let x=0; x < xSize; x++) {
             mapTerrain.push([]);
             for (let y=0; y < ySize; y++) {
-                // Random number, either 1 or 0
-                mapTerrain[x].push(Math.floor(Math.random() * 2))
+                if (
+                    x === 0 ||
+                    y === 0 ||
+                    x === xSize - 1 ||
+                    y === ySize - 1
+                ) {
+                    mapTerrain[x].push(0)
+                } else {
+                    // Random number, either 1 or 0
+                    mapTerrain[x].push(Math.floor(Math.random() * 2))
+                }
             }
         }
 

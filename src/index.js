@@ -5,4 +5,4 @@ import 'antd/dist/antd.css';
 import GameCore from './engine/GameCore';
 
 
-new GameCore({debug: true}).startGame();
+new GameCore().startGame();

@@ -23,26 +23,13 @@ export default class GameCore {
         FAST: 1000
     };
 
-    // TODO move this to config area in order to make it fully modular.
-    static gameComponentTypes = [
-        "physicsComponents",
-        "productionComponents"
-    ];
-
-    static renderComponentTypes = [
-        "renderComponents",
-        "menuComponents",
-    ];
-
-    static gameObjectTypes = [
-        "citys",
-        "merchants"
-    ];
-
     static createConfig(options) {
         // TODO make this better.
         const config = {
+            // Default config
             debug: false,
+
+            // Loaded in Config
             ...options
         };
 
@@ -70,7 +57,7 @@ export default class GameCore {
         return gameCore;
     }
 
-    constructor(options={}) {
+    constructor() {
         this.speed = GameCore.UPDATE_LENGTH.NORMAL;
         this.previous = null;
         this.lag = 0;
@@ -78,21 +65,19 @@ export default class GameCore {
         this.gameObjects = null;
         this.components = null;
 
-        this.__setupGameObjects();
-
         this.renderCore = new RenderCore();
         this.menuCore = new MenuCore();
 
         this.objectFactory = null;
 
-        this.config = GameCore.createConfig(options)
+        this.config = null;
     }
 
     __setupGameObjects() {
         this.gameObjects = {
             unnamed: []
         };
-        for (const objectName of GameCore.gameObjectTypes) {
+        for (const objectName of this.config.gameObjectTypes) {
             this.gameObjects[objectName] = [];
         }
 
@@ -100,8 +85,8 @@ export default class GameCore {
             inactive: []
         };
         for (const componentName of [
-            ...GameCore.gameComponentTypes,
-            ...GameCore.renderComponentTypes
+            ...this.config.gameComponentTypes,
+            ...this.config.renderComponentTypes
         ]) {
             this.components[componentName] = []
         }
@@ -146,17 +131,22 @@ export default class GameCore {
             // The path has to be set from the working directory.
             jsonStorage.setDataPath(path.resolve("./src/data/config"));
 
-            jsonStorage.has("configfile", (err, hasKey) => {
+            jsonStorage.has("config", (err, hasKey) => {
                 if (err) {
                     reject(err);
                 }
 
                 if (hasKey) {
-                    // what to do if there is a file
-                    resolve()
-                }
+                    jsonStorage.get("config", (err, data) => {
+                        if (err) reject(err);
 
-                reject("There was no config file");
+                        this.config = GameCore.createConfig(data);
+                        this.__setupGameObjects();
+                        resolve()
+                    });
+                } else {
+                    reject("There was no config file");
+                }
             })
         })
     }
@@ -271,11 +261,11 @@ export default class GameCore {
     }
 
     __updateGameState(delta) {
-        this.__updateComponents(GameCore.gameComponentTypes, delta)
+        this.__updateComponents(this.config.gameComponentTypes, delta)
     }
 
     __renderGraphics(lag) {
-        this.__updateComponents(GameCore.renderComponentTypes, lag);
+        this.__updateComponents(this.config.renderComponentTypes, lag);
 
         this.menuCore.update(this)
     }

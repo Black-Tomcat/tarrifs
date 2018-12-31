@@ -1,0 +1,15 @@
+{
+  "debug": true,
+  "gameComponentTypes": [
+    "physicsComponents",
+    "productionComponents"
+  ],
+  "renderComponentTypes": [
+    "renderComponents",
+    "menuComponents"
+  ],
+  "gameObjectTypes": [
+    "citys",
+    "merchants"
+  ]
+}

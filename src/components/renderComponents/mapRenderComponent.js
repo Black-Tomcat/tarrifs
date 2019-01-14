@@ -3,7 +3,7 @@ import RenderComponent from "../RenderComponent";
 const PIXI = require("pixi.js");
 
 
-export default class mapRenderComponent extends RenderComponent{
+export default class MapRenderComponent extends RenderComponent{
     static terrainKeys = {
         0: "ocean",
         1: "land",
@@ -18,13 +18,13 @@ export default class mapRenderComponent extends RenderComponent{
         const sprites = [];
 
         if (!mapTerrain) {
-            mapTerrain = mapRenderComponent.generateTerrain();
+            mapTerrain = MapRenderComponent.generateTerrain();
         }
 
         for (const x in mapTerrain) {
             for (const y in mapTerrain[x]) {
                 const terrain = mapTerrain[y][x];
-                const sprite = new PIXI.Sprite(textures[mapRenderComponent.terrainKeys[terrain]]);
+                const sprite = new PIXI.Sprite(textures[MapRenderComponent.terrainKeys[terrain]]);
                 sprite.interactive = true;
                 sprite.x = x * textures.metadata.tileSize + startingCoords.x;
                 sprite.y = y * textures.metadata.tileSize + startingCoords.y;
@@ -55,8 +55,8 @@ export default class mapRenderComponent extends RenderComponent{
 
 
     static generateTerrain(
-        xSize=mapRenderComponent.defaultSize.x,
-        ySize=mapRenderComponent.defaultSize.y
+        xSize=MapRenderComponent.defaultSize.x,
+        ySize=MapRenderComponent.defaultSize.y
     ) {
         const mapTerrain = [];
 

@@ -1,6 +1,5 @@
 import spritesheet from "../data/assets/spritesheet.png";
 import spritesheetJSON from "../data/assets/spritesheet";
-import GameObjectFactory from "../objects/GameObject";
 
 const PIXI = require("pixi.js");
 
@@ -29,22 +28,24 @@ export class RenderCore {
             this.pixiApp.stage.interactive = true;
 
             const renderer = this.pixiApp.renderer;
-            renderer.autoResize = true;
+            renderer.autoDensity = true;
             renderer.view.style.position = "absolute";
             renderer.view.style.display = "block";
 
             this.__setupMovementControls();
 
+            const loader = new PIXI.Loader();
+
             try {
                 // TODO if you want to make a unique standalone game engine, simply make this loader 'modular'
-                PIXI.loader.add(
+                loader.add(
                     "spritesheet", spritesheet
                 );
             } catch (e) {
                 logger.warning(e)
             }
 
-            PIXI.loader.load((loader, resources) => {
+            loader.load((loader, resources) => {
                 const spritesheet = new PIXI.Spritesheet(
                     resources["spritesheet"].texture.baseTexture,
                     spritesheetJSON
@@ -61,7 +62,7 @@ export class RenderCore {
                     textureObject.metadata = spritesheetJSON.metadata
                 });
 
-                resolve(new GameObjectFactory(textureObject));
+                resolve(textureObject);
             });
         });
     }
@@ -134,5 +135,10 @@ export class RenderCore {
 
     removeSprite(sprite) {
         this.pixiApp.stage.removeChild(sprite);
+    }
+
+    cleanStage() {
+        // honk honk honk. remove children.
+        this.pixiApp.stage.removeChildren();
     }
 }

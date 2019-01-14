@@ -597,6 +597,305 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@pixi/accessibility@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/accessibility/-/accessibility-5.0.0-alpha.3.tgz#d1558d34a71760a80a80193e13d229e26158b985"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    ismobilejs "^0.4.0"
+
+"@pixi/app@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/app/-/app-5.0.0-alpha.3.tgz#df20eab3bd35258e4477f6460dc2d0dc5e9be2ea"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+
+"@pixi/canvas-renderer@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/canvas-renderer/-/canvas-renderer-5.0.0-alpha.3.tgz#b9f2e5f22dc7e57090a0de59cb15df4614139295"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/constants@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/constants/-/constants-5.0.0-alpha.3.tgz#7133666feb45f6d248baa6112c0c3539bd524727"
+  dependencies:
+    ismobilejs "^0.4.0"
+
+"@pixi/core@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/core/-/core-5.0.0-alpha.3.tgz#034043f75f6c36da13817dbceff4e37d1c183dd2"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/ticker" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    bit-twiddle "^1.0.2"
+    eventemitter3 "^2.0.0"
+    ismobilejs "^0.4.0"
+    mini-runner "^1.0.1"
+
+"@pixi/display@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/display/-/display-5.0.0-alpha.3.tgz#fbdcbff7d60f306da07897a1adc1eb4f016882bb"
+  dependencies:
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    eventemitter3 "^2.0.0"
+    remove-array-items "^1.0.0"
+
+"@pixi/extract@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/extract/-/extract-5.0.0-alpha.3.tgz#ca398c5cd679a74bab4671d05cc4c7d5e3b2198f"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/filter-alpha@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-alpha/-/filter-alpha-5.0.0-alpha.3.tgz#6fa56869582d267131cc7138cb4b656d3da5ba39"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/fragments" "^5.0.0-alpha.3"
+
+"@pixi/filter-blur@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-blur/-/filter-blur-5.0.0-alpha.3.tgz#db7d179a156d9200df2dc46c1c3eee00c6411fd8"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+
+"@pixi/filter-color-matrix@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-color-matrix/-/filter-color-matrix-5.0.0-alpha.3.tgz#aa437019428d71ee25372c1b16b74e0abba9bf2b"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/fragments" "^5.0.0-alpha.3"
+
+"@pixi/filter-displacement@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-displacement/-/filter-displacement-5.0.0-alpha.3.tgz#b29be65d3f58c58efff596bea9300db6585e3eb5"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+
+"@pixi/filter-fxaa@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-fxaa/-/filter-fxaa-5.0.0-alpha.3.tgz#3569c72b36b09a35b6559e2a1e506fc8f6ec4395"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+
+"@pixi/filter-noise@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-noise/-/filter-noise-5.0.0-alpha.3.tgz#b09199eb435f9331bfdab75c299e302687e115be"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/fragments" "^5.0.0-alpha.3"
+
+"@pixi/fragments@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/fragments/-/fragments-5.0.0-alpha.3.tgz#f5a48de6f36a19b90e1e429aeca9f8fcc923559a"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+
+"@pixi/graphics@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/graphics/-/graphics-5.0.0-alpha.3.tgz#0b7c0007744f6db8841a54ec876aa405130ba82e"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/interaction@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/interaction/-/interaction-5.0.0-alpha.3.tgz#898fec63e7e7b7ff440459268a5ffed7704ebd36"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/ticker" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    eventemitter3 "^2.0.0"
+
+"@pixi/loaders@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/loaders/-/loaders-5.0.0-alpha.3.tgz#b69a35331fb74f62d92d4407dbda7f3e756255e8"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    eventemitter3 "^2.0.0"
+    resource-loader "^2.1.1"
+
+"@pixi/math@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/math/-/math-5.0.0-alpha.3.tgz#c3a77b252d83f9fbf686f716704cfb137c8bdde5"
+
+"@pixi/mesh-extras@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/mesh-extras/-/mesh-extras-5.0.0-alpha.3.tgz#50de41089e17177cae72ddd6d00785a0527b51b8"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/mesh" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/mesh@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/mesh/-/mesh-5.0.0-alpha.3.tgz#4704d7f3bccc54c74a0c8aa791789d0c15069659"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+
+"@pixi/mixin-cache-as-bitmap@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/mixin-cache-as-bitmap/-/mixin-cache-as-bitmap-5.0.0-alpha.3.tgz#1cfcffafaae9e7601dea28ebdf2cd6e15682dd5c"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/mixin-get-child-by-name@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/mixin-get-child-by-name/-/mixin-get-child-by-name-5.0.0-alpha.3.tgz#d9937006ceba7aaec3bd363a13891c0f67f91698"
+  dependencies:
+    "@pixi/display" "^5.0.0-alpha.3"
+
+"@pixi/mixin-get-global-position@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/mixin-get-global-position/-/mixin-get-global-position-5.0.0-alpha.3.tgz#2cf90f980c6ac7594de27433bb33f23ee1573145"
+  dependencies:
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+
+"@pixi/particles@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/particles/-/particles-5.0.0-alpha.3.tgz#b9ad8059adf4e096a429b84e5b63139988d629ce"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/prepare@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/prepare/-/prepare-5.0.0-alpha.3.tgz#467a3ce1f7ac67a33b67b2bc86534fba75a9d583"
+  dependencies:
+    "@pixi/canvas-renderer" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/graphics" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/text" "^5.0.0-alpha.3"
+    "@pixi/ticker" "^5.0.0-alpha.3"
+
+"@pixi/settings@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/settings/-/settings-5.0.0-alpha.3.tgz#d97ff66e09d3cc3345a398b6fae2127264e9e681"
+  dependencies:
+    ismobilejs "^0.4.0"
+
+"@pixi/sprite-animated@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/sprite-animated/-/sprite-animated-5.0.0-alpha.3.tgz#7a1864ae381ed848ed90c0ec8103dda14163127c"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/ticker" "^5.0.0-alpha.3"
+
+"@pixi/sprite-tiling@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/sprite-tiling/-/sprite-tiling-5.0.0-alpha.3.tgz#e519cee0acf83b635c61a0a7fc7fa29a28b32336"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/sprite@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/sprite/-/sprite-5.0.0-alpha.3.tgz#c838878feb3e0df2919f9bc8adc41ed6a6de28dd"
+  dependencies:
+    "@pixi/canvas-renderer" "^5.0.0-alpha.3"
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    bit-twiddle "^1.0.2"
+
+"@pixi/spritesheet@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/spritesheet/-/spritesheet-5.0.0-alpha.3.tgz#7a3fe3e3cda7dcba10d2d24f578c2935f11ab7d9"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/loaders" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+    url "^0.11.0"
+
+"@pixi/text-bitmap@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/text-bitmap/-/text-bitmap-5.0.0-alpha.3.tgz#63ebdfe6788a670fedb8802ac006d94c14d7da4a"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/loaders" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/text@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/text/-/text-5.0.0-alpha.3.tgz#164778fbc0e9550eb4e078daa5bd01b3647c1309"
+  dependencies:
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
+
+"@pixi/ticker@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/ticker/-/ticker-5.0.0-alpha.3.tgz#7860f1d8be5dd4dd6684b76ab11b982386432653"
+  dependencies:
+    "@pixi/settings" "^5.0.0-alpha.3"
+
+"@pixi/utils@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pixi/utils/-/utils-5.0.0-alpha.3.tgz#ade18b34974168ac096afeb89f11002f022d7bab"
+  dependencies:
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    earcut "^2.1.3"
+    eventemitter3 "^2.0.0"
+    ismobilejs "^0.4.0"
+    remove-array-items "^1.0.0"
+    url "^0.11.0"
+
 "@types/node@^8.0.24":
   version "8.10.38"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.38.tgz#e05c201a668492e534b48102aca0294898f449f6"
@@ -3006,6 +3305,10 @@ mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
 
+mini-runner@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mini-runner/-/mini-runner-1.0.1.tgz#49c4e1ab98b70593fa03988508ba9e29a6176444"
+
 mini-signals@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mini-signals/-/mini-signals-1.2.0.tgz#45b08013c5fae51a24aa1a935cd317c9ed721d74"
@@ -3519,22 +3822,42 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-pixi-gl-core@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/pixi-gl-core/-/pixi-gl-core-1.1.4.tgz#8b4b5c433b31e419bc379dc565ce1b835a91b372"
-
-pixi.js@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-4.8.2.tgz#c9e6f5f3b6780d2236705a7539e4e5ca3d74151f"
+pixi.js@^5:
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-5.0.0-alpha.3.tgz#958985886bef5e466bd58e98314436440238371c"
   dependencies:
-    bit-twiddle "^1.0.2"
-    earcut "^2.1.3"
-    eventemitter3 "^2.0.0"
-    ismobilejs "^0.4.0"
-    object-assign "^4.0.1"
-    pixi-gl-core "^1.1.4"
-    remove-array-items "^1.0.0"
-    resource-loader "^2.1.1"
+    "@pixi/accessibility" "^5.0.0-alpha.3"
+    "@pixi/app" "^5.0.0-alpha.3"
+    "@pixi/constants" "^5.0.0-alpha.3"
+    "@pixi/core" "^5.0.0-alpha.3"
+    "@pixi/display" "^5.0.0-alpha.3"
+    "@pixi/extract" "^5.0.0-alpha.3"
+    "@pixi/filter-alpha" "^5.0.0-alpha.3"
+    "@pixi/filter-blur" "^5.0.0-alpha.3"
+    "@pixi/filter-color-matrix" "^5.0.0-alpha.3"
+    "@pixi/filter-displacement" "^5.0.0-alpha.3"
+    "@pixi/filter-fxaa" "^5.0.0-alpha.3"
+    "@pixi/filter-noise" "^5.0.0-alpha.3"
+    "@pixi/graphics" "^5.0.0-alpha.3"
+    "@pixi/interaction" "^5.0.0-alpha.3"
+    "@pixi/loaders" "^5.0.0-alpha.3"
+    "@pixi/math" "^5.0.0-alpha.3"
+    "@pixi/mesh" "^5.0.0-alpha.3"
+    "@pixi/mesh-extras" "^5.0.0-alpha.3"
+    "@pixi/mixin-cache-as-bitmap" "^5.0.0-alpha.3"
+    "@pixi/mixin-get-child-by-name" "^5.0.0-alpha.3"
+    "@pixi/mixin-get-global-position" "^5.0.0-alpha.3"
+    "@pixi/particles" "^5.0.0-alpha.3"
+    "@pixi/prepare" "^5.0.0-alpha.3"
+    "@pixi/settings" "^5.0.0-alpha.3"
+    "@pixi/sprite" "^5.0.0-alpha.3"
+    "@pixi/sprite-animated" "^5.0.0-alpha.3"
+    "@pixi/sprite-tiling" "^5.0.0-alpha.3"
+    "@pixi/spritesheet" "^5.0.0-alpha.3"
+    "@pixi/text" "^5.0.0-alpha.3"
+    "@pixi/text-bitmap" "^5.0.0-alpha.3"
+    "@pixi/ticker" "^5.0.0-alpha.3"
+    "@pixi/utils" "^5.0.0-alpha.3"
 
 pkg-dir@^2.0.0:
   version "2.0.0"

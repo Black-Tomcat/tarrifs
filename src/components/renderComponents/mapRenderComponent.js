@@ -14,6 +14,15 @@ export default class MapRenderComponent extends RenderComponent{
         y: 50
     };
 
+    static restore(
+        gameCore,
+        gameObject,
+        component,
+        textures
+    ) {
+        return new MapRenderComponent(gameCore, gameObject, textures, component.mapTerrain)
+    }
+
     constructor(gameCore, gameObject, textures, mapTerrain=false, startingCoords={x:0, y:0}) {
         const sprites = [];
 

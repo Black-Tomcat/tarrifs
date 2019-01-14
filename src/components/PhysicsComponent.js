@@ -2,6 +2,13 @@ import GameComponent from "./GameComponent";
 
 
 export default class PhysicsComponent extends GameComponent{
+    static restore(
+        gameCore,
+        gameObject,
+        component
+    ) {
+        return new PhysicsComponent(gameCore, gameObject, component.pos);
+    }
     constructor(gameCore, gameObject, pos) {
         super(gameCore, gameObject, "physicsComponent", "physicsComponent");
         this.pos = {

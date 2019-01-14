@@ -23,6 +23,7 @@ export default class Logger {
             "FATAL": 100,
             "ERROR": 80,
             "WARNING": 60,
+            "IMPORTANT": 50,
             "INFO": 40,
             "DEBUG": 20,
             "NOTSET": 0

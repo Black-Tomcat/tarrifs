@@ -9,6 +9,14 @@ import Logger from "../../utils/Logger";
 const logger = Logger.getLogger();
 
 export default class CityMenuComponent extends MenuComponent {
+    static restore(
+        gameCore,
+        gameObject,
+        component
+    ) {
+        return new CityMenuComponent(gameCore, gameObject)
+    }
+
     constructor(gameCore, gameObject) {
         const reactComponent = CityReactComponent;
         super(gameCore, gameObject, reactComponent, "cityMenuComponent");
@@ -93,14 +101,12 @@ class CityReactComponent extends Component {
                         />
                     </Col>
                     <Col span={12}>
-                        <h4>Stockpile</h4>
+                        <h4>Producers</h4>
                         <List
                             size="small"
                             bordered
-                            dataSource={Object.keys(productionComponent.stockpile).map((key) => {
-                                return [key, productionComponent.stockpile[key]]
-                            })}
-                            renderItem={item => (<List.Item><h4>{item[0]}:</h4>&nbsp;{item[1]}</List.Item>)}
+                            dataSource={productionComponent.producers}
+                            renderItem={item => (<List.Item>{item}</List.Item>)}
                         />
                     </Col>
                 </Row>

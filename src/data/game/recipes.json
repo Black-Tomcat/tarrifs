@@ -1,0 +1,17 @@
+[
+  {
+    "itemType": "furniture",
+    "costs": {
+      "wood": 10,
+      "time": 5
+    }
+  },
+  {
+    "itemType": "guns",
+    "costs": {
+      "wood": 5,
+      "iron": 10,
+      "time": 30
+    }
+  }
+]

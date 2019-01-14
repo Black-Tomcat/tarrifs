@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import jsonStorage from 'electron-json-storage';
 const PIXI = require("pixi.js");
 import path from "path";
-import async from 'async';
+import waterfall from 'async/waterfall';
 
 import spritesheet from '../data/assets/spritesheet.png'
 import spritesheetJSON from '../data/assets/spritesheet.json';
@@ -11,7 +11,8 @@ import GameObjectFactory from "../objects/GameObject";
 import {getPixiApp, RenderCore} from "./RenderCore";
 import MenuCore from "./MenuCore";
 import Logger from "../utils/Logger";
-import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
+import MapRenderComponent from "../components/renderComponents/mapRenderComponent";
+
 
 const logger = Logger.getLogger();
 
@@ -108,9 +109,12 @@ export default class GameCore {
 
         Promise.all([
             this.__loadGameConfig(),
-            this.renderCore.loadGameGraphics().then((objectFactory) => {this.objectFactory = objectFactory})
-        ]).then(() => {
-            // Load in dummy game
+            this.__loadGameData(),
+            this.renderCore.loadGameGraphics()
+        ]).then((results) => {
+            const [_, gameData, textureObject] = results;
+            this.objectFactory = new GameObjectFactory(textureObject, gameData);
+
             if (this.config.debug) {
                 this.__loadGameSave("debug").then(() => {
                     startGameLoop();
@@ -122,22 +126,18 @@ export default class GameCore {
                 this.createNewGame();
                 startGameLoop();
             }
-            // Start timer and then start loop
         })
     }
 
     __loadGameConfig() {
         return new Promise((resolve, reject) => {
-            // The path has to be set from the working directory.
-            jsonStorage.setDataPath(path.resolve("./src/data/config"));
-
-            jsonStorage.has("config", (err, hasKey) => {
+            jsonStorage.has("config", {dataPath: "./src/data/config"}, (err, hasKey) => {
                 if (err) {
                     reject(err);
                 }
 
                 if (hasKey) {
-                    jsonStorage.get("config", (err, data) => {
+                    jsonStorage.get("config", {dataPath: "./src/data/config"}, (err, data) => {
                         if (err) reject(err);
 
                         this.config = GameCore.createConfig(data);
@@ -151,9 +151,28 @@ export default class GameCore {
         })
     }
 
+    __loadGameData() {
+        return new Promise((resolve, reject) => {
+            jsonStorage.getMany(
+                ["recipes"],
+                {dataPath: "./src/data/game"},
+                (err, data) => {
+                    if (err) reject(err);
+
+                    for (const dataPoint in data) {
+                        if (data[dataPoint] === {}) {
+                            reject("The data point '" + dataPoint + "' was not present.")
+                        }
+                    }
+
+                    resolve(data);
+                }
+            );
+        })
+    }
+
     __loadGameSave(saveName) {
         return new Promise((resolve, reject) => {
-            // The path has to be set from the working directory.
             jsonStorage.setDataPath(path.resolve("./src/data/saves"));
 
             jsonStorage.has(saveName, (err, hasKey) => {
@@ -165,41 +184,30 @@ export default class GameCore {
                     jsonStorage.get(saveName, (err, data) => {
                         if (err) reject(err);
 
-                        // data being the equivalent of this.gameObjects.
                         this.__restoreGameState(data);
-
-                        // this.createNewGame(data.mapTerrain, data.cities);
 
                         resolve();
                     });
                 } else {
-                    // Must be under the 'else' clause due to jsonStorage.get() being async.
                     reject("There was no save under the name of '" + saveName + "'.");
                 }
             })
         })
     }
 
-    __restoreGameState(gameCore) {
+    __restoreGameState(gameSave) {
+        logger.important("HEY, GAME IS LOADING");
         this.__setupGameObjects();
 
-        // Clean instance of each.
-        delete this.renderCore;
-        delete this.menuCore;
-
-        this.renderCore = new RenderCore();
-        this.menuCore = new MenuCore();
+        this.renderCore.cleanStage();
 
         // TODO Come up with a better way to load graphics so it doesn't have to be reloaded between saves?
         // Considering it might be useful to keep this functionality here if separate skins were going to be used from game to game.
-        this.renderCore.loadGameGraphics().then((objectFactory) => {
-            this.objectFactory = objectFactory;
-            for (const gameObjects of Object.values(gameCore.gameObjects)) {
+            for (const gameObjects of Object.values(gameSave.gameObjects)) {
                 for (const gameObject of gameObjects) {
                     this.addNewGameObject(this.objectFactory.restoreObject(this, gameObject))
                 }
             }
-        });
     }
 
     __saveGameSave(saveName) {
@@ -275,7 +283,7 @@ export default class GameCore {
         cities="random"
     ) {
         if (!mapTerrain) {
-            mapTerrain = mapRenderComponent.generateTerrain();
+            mapTerrain = MapRenderComponent.generateTerrain();
         }
 
         this.addNewGameObject(this.objectFactory.createMap(this, mapTerrain));
@@ -291,8 +299,8 @@ export default class GameCore {
         if (cities === "random") {
             cities = [];
             while (true) {
-                const randX = Math.floor(Math.random() * mapRenderComponent.defaultSize.x);
-                const randY = Math.floor(Math.random() * mapRenderComponent.defaultSize.y);
+                const randX = Math.floor(Math.random() * MapRenderComponent.defaultSize.x);
+                const randY = Math.floor(Math.random() * MapRenderComponent.defaultSize.y);
 
                 if (mapTerrain[randX][randY] === 1) {
                     cities.push({

@@ -24,9 +24,6 @@ export default class GameComponent {
             const that = Object.assign({}, this);
             that.gameObject = "[gameObject]";
 
-            // Remove redundant information
-            delete that.componentType;
-
             return that;
         }
 

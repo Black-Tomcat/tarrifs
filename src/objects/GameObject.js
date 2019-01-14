@@ -1,10 +1,11 @@
 import PhysicsComponent from '../components/PhysicsComponent'
 import RenderComponent from "../components/RenderComponent";
-import mapRenderComponent from "../components/renderComponents/mapRenderComponent";
+import MapRenderComponent from "../components/renderComponents/mapRenderComponent";
 import React from "react";
 import CityMenuComponent from "../components/menuComponents/CityMenuComponent";
 import ProductionComponent from "../components/ProductionComponent";
 import Logger from "../utils/Logger";
+import MenuComponent from "../components/MenuComponent";
 
 const logger = Logger.getLogger();
 
@@ -40,28 +41,55 @@ class GameObject {
 }
 
 export default class GameObjectFactory {
-    constructor(textureObject) {
-        this.textureObject = textureObject;
-    }
+    static componentTypeMap = {
+        "cityMenuComponent": CityMenuComponent,
+        "mapRenderComponent": MapRenderComponent,
+        "menuComponent": MenuComponent,
+        "physicsComponent": PhysicsComponent,
+        "productionComponent": ProductionComponent,
+        "renderComponent": RenderComponent
+    };
 
-    restoreObject(gameCore, object) {
-        switch (object.objectType) {
-            case "city":
-                return this.createNewCity(gameCore, object.components.physicsComponent.pos, object.details);
-            case "merchant":
-                return this.createNewMerchant(gameCore, object.components.physicsComponent.pos);
-            case "gameMap":
-                return this.createMap(gameCore, object.components.renderComponent.mapTerrain);
-            default:
-                throw new Error("The gameObject doesn't have a type");
+    constructor(textureObject, gameData) {
+        this.textureObject = textureObject;
+
+        for (const recipe of gameData.recipes) {
+            ProductionComponent.recipes[recipe.itemType] = new ProductionComponent.Recipe(
+                recipe.costs,
+                recipe.itemType
+            )
         }
     }
 
-    createNewCity(gameCore, location, details) {
+    restoreObject(gameCore, saveGameObject) {
+        const gameObject = new GameObject(
+            saveGameObject.objectType,
+            gameCore,
+            saveGameObject.details
+        );
+
+        const components = {};
+        for (const component of Object.values(saveGameObject.components)) {
+            const componentType = GameObjectFactory.componentTypeMap[component.componentType];
+            components[component.superType] = componentType.restore(gameCore, gameObject, component, this.textureObject);
+        }
+
+        gameObject.addComponentsToObject(components, gameCore);
+
+        return gameObject
+    }
+
+    createNewCity(
+        gameCore,
+        location,
+        details,
+        stockpile = {},
+
+    ) {
         const city = new GameObject(
             "city",
             gameCore,
-            details
+            details,
         );
 
         city.addComponentsToObject({
@@ -104,7 +132,7 @@ export default class GameObjectFactory {
         );
 
         map.addComponentsToObject({
-            renderComponent: new mapRenderComponent(gameCore, map, this.textureObject, mapTerrain)
+            renderComponent: new MapRenderComponent(gameCore, map, this.textureObject, mapTerrain)
         }, gameCore);
 
         return map;

@@ -2,10 +2,24 @@ import GameComponent from "./GameComponent";
 
 
 export default class RenderComponent extends GameComponent {
+    static restore(
+        gameCore,
+        gameObject,
+        component,
+        textures,
+        componentType = "renderComponent"
+    ) {
+        const sprites = [];
+        for (const spriteTexture of component.sprites.split(", ")) {
+            sprites.push(new PIXI.Sprite(textures[spriteTexture]));
+        }
+        return new RenderComponent(gameCore, gameObject, sprites, componentType)
+    }
+
     constructor(gameCore, gameObject, sprites = [], componentType = "renderComponent") {
         super(gameCore, gameObject, componentType, "renderComponent");
 
-        this.sprites = sprites;
+        this.sprites = (sprites instanceof Array && sprites.length) === 1 ? sprites[0] : sprites;
         this.physicsSibling = null;
 
         if (this.sprites instanceof Array) {
@@ -20,7 +34,16 @@ export default class RenderComponent extends GameComponent {
     toJSON(key) {
         const that = super.toJSON(key);
 
-        that.sprites = "[Sprite(s)]";
+        if (this.sprites instanceof Array) {
+            for (const sprite of this.sprites) {
+                const textureCache = sprite.texture.textureCacheIds;
+                that.sprites += textureCache[textureCache.length - 1];
+                that.sprites += ", ";
+            }
+        } else {
+            const textureCache = this.sprites.texture.textureCacheIds;
+            that.sprites = textureCache[textureCache.length - 1];
+        }
         that.physicsSibling = "[physicsSibling]";
         return that
     }
